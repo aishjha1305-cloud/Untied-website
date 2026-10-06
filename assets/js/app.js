@@ -284,19 +284,41 @@
   }
 
   function viewInfo(kind) {
-    const care = kind === 'care';
-    const rows = care ? [
-      ['Washing', 'Hand wash cold with a mild soap, or dry clean. Never wring the satin.'],
-      ['Drying', 'Roll in a towel to lift the water, then dry flat in the shade.'],
-      ['Ironing', 'Low heat on the reverse, with a cloth between the iron and the print.'],
-      ['Storing', 'Fold loosely or roll. Keep away from direct sun so the colours stay deep.']
-    ] : [
-      ['Shipping', 'Free shipping across India over ₹999. Below that, ₹79. Dispatch in 2 to 3 working days.'],
-      ['Exchanges', 'Exchange unworn pieces with tags within 7 days of delivery.'],
-      ['Limited drops', 'Pieces marked Limited can be exchanged for store credit only.'],
-      ['Cash on delivery', 'Available on most pin codes in India.']
-    ];
-    return `<section class="wrap page-head"><p class="ui pink">✦ Help</p><h1 class="display">${care ? 'Care guide' : 'Shipping & returns'}</h1></section>
+    const INFO = {
+      care: ['Help', 'Care guide', [
+        ['Washing', 'Hand wash cold with a mild soap, or dry clean. Never wring the satin.'],
+        ['Drying', 'Roll in a towel to lift the water, then dry flat in the shade.'],
+        ['Ironing', 'Low heat on the reverse, with a cloth between the iron and the print.'],
+        ['Storing', 'Fold loosely or roll. Keep away from direct sun so the colours stay deep.']
+      ]],
+      faq: ['Help', 'Shipping & returns', [
+        ['Shipping', 'Free shipping across India over ₹999. Below that, ₹79. Dispatch in 2 to 3 working days.'],
+        ['Exchanges', 'Exchange unworn pieces with tags within 7 days of delivery.'],
+        ['Limited drops', 'Pieces marked Limited can be exchanged for store credit only.'],
+        ['Cash on delivery', 'Available on most pin codes in India.']
+      ]],
+      terms: ['Legal', 'Terms & conditions', [
+        ['About these terms', 'These terms apply when you browse untied.in or buy from Untied. By placing an order you agree to them. We may update them from time to time, and the version on this page is the one that applies.'],
+        ['Products', 'Every Untied piece is printed in small batches, so colours and placement can vary slightly from the photos. Sizes are listed on each product page.'],
+        ['Prices & payment', 'Prices are in Indian rupees and include applicable taxes. Shipping is added at checkout. An order is confirmed once payment is received, or once you choose cash on delivery where available.'],
+        ['Shipping', 'We ship across India and usually dispatch within 2 to 3 working days. Delivery times are estimates from our courier partners and can change.'],
+        ['Exchanges & returns', 'Unworn pieces with tags can be exchanged within 7 days of delivery. Limited drop pieces can be exchanged for store credit only. See Shipping & returns for details.'],
+        ['Cancellations', 'You can cancel an order before it is dispatched by contacting us. Once shipped, it follows the exchange policy.'],
+        ['Intellectual property', 'All prints, artwork, photos, logos and text on this site belong to Untied and may not be copied or reused without permission.'],
+        ['Privacy', 'We only use your details to process your order and, if you sign up, to send drop news. We never sell your information.'],
+        ['Governing law', 'These terms are governed by the laws of India.'],
+        ['Questions', 'Write to us any time from the Contact page.']
+      ]]
+    };
+    if (kind === 'contact') return `<section class="wrap page-head"><p class="ui pink">✦ Say hello</p><h1 class="display">Contact</h1><p class="lede" style="max-width:560px">Questions about an order, a collaboration, or just want to talk stars? We usually reply within two working days.</p></section>
+    <section class="wrap" style="padding-bottom:110px;max-width:980px;margin-inline:0"><div class="acc ui">${[
+      ['Email', '<a class="link" href="mailto:hello@untied.in">hello@untied.in</a>'],
+      ['Instagram', '<a class="link" href="https://instagram.com/untiedco" target="_blank" rel="noopener">@untiedco</a>'],
+      ['Orders & exchanges', 'Include your order number (it starts with UNT-) so we can find it quickly.'],
+      ['Collaborations & pop-ups', 'Tell us about your event or idea and we will get back to you.']
+    ].map(([q, a]) => `<details open><summary>${q}</summary><div class="body"><p>${a}</p></div></details>`).join('')}</div></section>`;
+    const [eyebrow, title, rows] = INFO[kind];
+    return `<section class="wrap page-head"><p class="ui pink">✦ ${eyebrow}</p><h1 class="display">${title}</h1></section>
     <section class="wrap" style="padding-bottom:110px;max-width:980px;margin-inline:0"><div class="acc ui">${rows.map(([q, a], i) => `<details ${i ? '' : 'open'}><summary>${q}</summary><div class="body"><p>${a}</p></div></details>`).join('')}</div></section>`;
   }
 
@@ -452,7 +474,7 @@
     const h = location.hash.replace('#', '') || 'home';
     if (h.startsWith('p-') && byId(h.slice(2))) return { name: 'product', id: h.slice(2) };
     if (h.startsWith('c-') && coll(h.slice(2))) return { name: 'shop', filter: h.slice(2) };
-    if (['shop', 'story', 'checkout', 'order', 'care', 'faq'].includes(h)) return { name: h };
+    if (['shop', 'story', 'checkout', 'order', 'care', 'faq', 'terms', 'contact'].includes(h)) return { name: h };
     if (['collections', 'ways', 'drops', 'manifesto'].includes(h)) return { name: 'home', anchor: h };
     return { name: 'home' };
   }
@@ -462,7 +484,7 @@
     const go = () => {
       if (k !== last || r.name !== 'home') {
         app.innerHTML = r.name === 'product' ? viewProduct(byId(r.id)) : r.name === 'shop' ? viewShop(r.filter || 'all') : r.name === 'story' ? viewStory()
-          : r.name === 'checkout' ? viewCheckout() : r.name === 'order' ? viewConfirm() : (r.name === 'care' || r.name === 'faq') ? viewInfo(r.name) : viewHome();
+          : r.name === 'checkout' ? viewCheckout() : r.name === 'order' ? viewConfirm() : ['care', 'faq', 'terms', 'contact'].includes(r.name) ? viewInfo(r.name) : viewHome();
         if (r.name === 'shop') { renderShopGrid(r.filter || 'all', shop.sort); $('#sortSel').value = shop.sort; }
         if (r.name === 'product') bindProduct(byId(r.id));
         if (r.name === 'home') bindHome();
