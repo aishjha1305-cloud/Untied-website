@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Untied</title>
+<meta name="description" content="Untied. Bandanas built to elevate your fashion game: one simple accessory, twelve ways to wear it, made to express who you are. Remain Untied.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Jost:wght@300;400;500&family=Michroma&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<!--BODY-->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <canvas id="loaderCanvas" width="700" height="117"></canvas>
+    <span class="ui">Always becoming</span>
+    <span class="count" id="loaderCount">000</span>
+  </div>
+</div>
+
+<div class="topbar ui" aria-label="Announcements"><div class="topbar-track" id="announce"></div></div>
+
+<header class="header" id="header">
+  <div class="wrap header-row ui">
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#shop" data-nav="shop">Collection 01</a>
+      <a href="#story" data-nav="story">Universe</a>
+      <a href="#ways" data-nav="ways">Ways to wear</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn">Menu</button>
+    <a class="brand" href="#home" aria-label="Untied home"><span class="mask wordmark"></span></a>
+    <div class="tools">
+      <button class="theme-btn" data-theme-toggle aria-label="Switch between light and dark mode"><i></i><span class="theme-label">Light</span></button>
+      <button class="search-btn" id="searchBtn">Search</button>
+      <button id="bagBtn" aria-label="Open bag">Bag <span class="bag-n" id="bagCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+  <button class="close ui" id="menuClose">Close</button>
+  <a href="#home">Home</a>
+  <a href="#shop">Store</a>
+  <a href="#shop">Collection 01</a>
+  <a href="#story">Universe</a>
+  <a href="#ways">Ways to wear</a>
+  <a href="#" data-open-search>Search</a>
+  <a href="#" data-theme-toggle><span class="theme-label">Light</span> mode</a>
+</nav>
+
+<main id="app" tabindex="-1"></main>
+
+<footer class="footer">
+  <span class="dots fade-up" style="opacity:.12"></span>
+  <span class="mask symbol" aria-hidden="true"></span>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><p class="tag">The stars never<br>stand still.<br><span class="pink">Neither should we.</span></p></div>
+      <div class="ui">
+        <h4>Untied</h4>
+        <ul>
+          <li><a class="link" href="#story">The universe</a></li>
+          <li><a class="link" href="#ways">Ways to wear</a></li>
+          <li><a class="link" href="#care">Care guide</a></li>
+          <li><a class="link" href="#faq">Shipping &amp; returns</a></li>
+        </ul>
+      </div>
+      <div class="ui">
+        <h4>Follow the orbit</h4>
+        <ul>
+          <li><a class="link" href="https://instagram.com/untiedco" target="_blank" rel="noopener">Instagram</a></li>
+          <li>Pop-ups &amp; festivals</li>
+          <li>Workshops</li>
+        </ul>
+      </div>
+    </div>
+    <span class="mask wordmark footer-mark" aria-hidden="true"></span>
+    <div class="footer-bottom ui">
+      <span>© <span id="year"></span> Untied · Born in India, made in India</span>
+      <span>Remain Untied ✦</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Your bag" aria-hidden="true">
+  <div class="drawer-head"><h2>Bag</h2><button class="ui" id="drawerClose">Close</button></div>
+  <div class="meter ui" id="meter"></div>
+  <div class="items" id="items"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<div class="search" id="search" role="dialog" aria-label="Search">
+  <button class="close ui" id="searchClose">Close</button>
+  <label class="sr-only" for="searchInput">Search bandanas</label>
+  <input id="searchInput" type="search" placeholder="Search" autocomplete="off">
+  <div class="grid" id="searchResults"></div>
+</div>
+
+<div class="preview" id="preview" aria-hidden="true"><img alt="" id="previewImg"></div>
+<div class="toast ui" id="toast" role="status" aria-live="polite"></div>
+<div class="wipe" id="wipe" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span class="c-ring"></span><span class="c-dot"></span></div>
+<!--/BODY-->
+<!--DATA-->
+<script src="assets/js/patterns.js"></script>
+<script src="assets/js/halftone.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

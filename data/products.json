@@ -1,0 +1,96 @@
+{
+  "currency": "INR",
+  "freeShippingOver": 999,
+  "collections": [
+    {
+      "id": "universe",
+      "name": "Untied Universe",
+      "kicker": "Collection 01",
+      "fabric": "Satin",
+      "features": [
+        "Silky satin",
+        "Printed borders",
+        "Limited drop"
+      ],
+      "blurb": "Our first collection. Galaxies, guiding stars and nebulae, printed on satin that moves with you."
+    }
+  ],
+  "products": [
+    {
+      "id": "spiral-galaxy",
+      "name": "Spiral Galaxy",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#FFF5C6",
+          "#FAE3FF"
+        ],
+        "seed": 3
+      },
+      "story": "A galaxy turning on nova blue satin, framed by a border of dotted orbits. Always becoming.",
+      "image": "assets/img/products/spiral-galaxy.webp",
+      "imageDetail": "assets/img/products/spiral-galaxy-detail.webp"
+    },
+    {
+      "id": "north-star",
+      "name": "North Star",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#F2EBDD",
+          "#2A2A2A",
+          "#9A9A9A"
+        ],
+        "seed": 3
+      },
+      "story": "A single guiding star on moon white satin, its light reaching every corner. For finding your way.",
+      "image": "assets/img/products/north-star.webp",
+      "imageDetail": "assets/img/products/north-star-detail.webp"
+    },
+    {
+      "id": "nebula-drift",
+      "name": "Nebula Drift",
+      "collection": "universe",
+      "price": 899,
+      "badge": "Limited",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#E8E0F0",
+          "#FFF5C6"
+        ],
+        "seed": 3
+      },
+      "story": "A cloud of stardust drifting across deep blue satin. The future is unwritten.",
+      "image": "assets/img/products/nebula-drift.webp",
+      "imageDetail": "assets/img/products/nebula-drift-detail.webp"
+    },
+    {
+      "id": "lilac-orbit",
+      "name": "Lilac Orbit",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#C9A8EC",
+          "#3B3B4F",
+          "#FFFFFF"
+        ],
+        "seed": 3
+      },
+      "story": "Halftone ripples and trail stars on saturn lilac satin. Born to wander.",
+      "image": "assets/img/products/lilac-orbit.webp",
+      "imageDetail": "assets/img/products/lilac-orbit-detail.webp"
+    }
+  ]
+}

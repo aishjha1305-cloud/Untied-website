@@ -1,0 +1,481 @@
+{
+  "currency": "INR",
+  "freeShippingOver": 999,
+  "collections": [
+    {
+      "id": "universe",
+      "name": "Untied Universe",
+      "kicker": "Collection 01",
+      "fabric": "Satin",
+      "features": [
+        "Silky satin",
+        "Printed borders",
+        "Limited drop"
+      ],
+      "blurb": "Our first collection. Galaxies, guiding stars and nebulae, printed on satin that moves with you."
+    },
+    {
+      "id": "tie-n-dye",
+      "name": "Tie N Dye",
+      "fabric": "Swiss cotton",
+      "features": [
+        "Breathable",
+        "Anti wrinkle",
+        "Quick dry"
+      ],
+      "blurb": "Marbled swirls, dyed by hand. No two pieces bleed the same way."
+    },
+    {
+      "id": "indigo-origins",
+      "name": "Indigo Origins",
+      "kicker": "Rooted Blue",
+      "fabric": "Cotton",
+      "features": [
+        "Breathable",
+        "Skin compatible"
+      ],
+      "blurb": "Indigo block prints and bandhani dots, the way the bandana first looked."
+    },
+    {
+      "id": "jaal",
+      "name": "Jaal Print",
+      "fabric": "Cotton",
+      "features": [
+        "Breathable",
+        "Skin compatible"
+      ],
+      "blurb": "Jaal means net. Florals and buds caught in a hand-printed lattice."
+    },
+    {
+      "id": "satin",
+      "name": "Satin",
+      "fabric": "Satin",
+      "features": [
+        "Breathable",
+        "Quick dry",
+        "Anti wrinkle"
+      ],
+      "blurb": "A soft sheen for hair, wrists and nights out."
+    },
+    {
+      "id": "hand-painted",
+      "name": "Hand Painted",
+      "kicker": "Anime & Bleach",
+      "fabric": "Cotton",
+      "features": [
+        "Hand painted",
+        "Bleach art",
+        "Limited drop"
+      ],
+      "blurb": "Painted and bleached one at a time. When a drop is gone, it is gone."
+    }
+  ],
+  "products": [
+    {
+      "id": "spiral-galaxy",
+      "name": "Spiral Galaxy",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#FFF5C6",
+          "#FAE3FF"
+        ],
+        "seed": 3
+      },
+      "story": "A galaxy turning on nova blue satin, framed by a border of dotted orbits. Always becoming.",
+      "image": "assets/img/products/spiral-galaxy.webp",
+      "imageDetail": "assets/img/products/spiral-galaxy-detail.webp"
+    },
+    {
+      "id": "north-star",
+      "name": "North Star",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#F2EBDD",
+          "#2A2A2A",
+          "#9A9A9A"
+        ],
+        "seed": 3
+      },
+      "story": "A single guiding star on moon white satin, its light reaching every corner. For finding your way.",
+      "image": "assets/img/products/north-star.webp",
+      "imageDetail": "assets/img/products/north-star-detail.webp"
+    },
+    {
+      "id": "nebula-drift",
+      "name": "Nebula Drift",
+      "collection": "universe",
+      "price": 899,
+      "badge": "Limited",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#E8E0F0",
+          "#FFF5C6"
+        ],
+        "seed": 3
+      },
+      "story": "A cloud of stardust drifting across deep blue satin. The future is unwritten.",
+      "image": "assets/img/products/nebula-drift.webp",
+      "imageDetail": "assets/img/products/nebula-drift-detail.webp"
+    },
+    {
+      "id": "lilac-orbit",
+      "name": "Lilac Orbit",
+      "collection": "universe",
+      "price": 899,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#C9A8EC",
+          "#3B3B4F",
+          "#FFFFFF"
+        ],
+        "seed": 3
+      },
+      "story": "Halftone ripples and trail stars on saturn lilac satin. Born to wander.",
+      "image": "assets/img/products/lilac-orbit.webp",
+      "imageDetail": "assets/img/products/lilac-orbit-detail.webp"
+    },
+    {
+      "id": "ocean-swirl",
+      "name": "Ocean Swirl",
+      "collection": "tie-n-dye",
+      "price": 649,
+      "badge": "Bestseller",
+      "pattern": {
+        "type": "tiedye",
+        "colors": [
+          "#0B2F86",
+          "#2F7BE0",
+          "#EAF2FF"
+        ],
+        "seed": 7
+      },
+      "story": "Folded, bound and dipped twice, so the blues pool into each other like a monsoon sea.",
+      "image": null
+    },
+    {
+      "id": "plum-smoke",
+      "name": "Plum Smoke",
+      "collection": "tie-n-dye",
+      "price": 649,
+      "badge": "New",
+      "pattern": {
+        "type": "tiedye",
+        "colors": [
+          "#2E1520",
+          "#6E3B50",
+          "#C89AAA"
+        ],
+        "seed": 21
+      },
+      "story": "A deep plum dye that smokes into dusty rose wherever the cloth was tied tight.",
+      "image": null
+    },
+    {
+      "id": "black-marble",
+      "name": "Black Marble",
+      "collection": "tie-n-dye",
+      "price": 649,
+      "pattern": {
+        "type": "tiedye",
+        "colors": [
+          "#0C0C0F",
+          "#45454D",
+          "#E4E4E6"
+        ],
+        "seed": 3
+      },
+      "story": "Ink-black with silver veins. Goes with everything you own.",
+      "image": null
+    },
+    {
+      "id": "lilac-haze",
+      "name": "Lilac Haze",
+      "collection": "tie-n-dye",
+      "price": 649,
+      "pattern": {
+        "type": "tiedye",
+        "colors": [
+          "#7F6FB0",
+          "#B9A8D9",
+          "#F0EAF8"
+        ],
+        "seed": 44
+      },
+      "story": "Soft lilac, washed out at the edges. Festival-ready.",
+      "image": null
+    },
+    {
+      "id": "bandhani-origin",
+      "name": "Bandhani Origin",
+      "collection": "indigo-origins",
+      "price": 599,
+      "badge": "New",
+      "pattern": {
+        "type": "bandhani",
+        "colors": [
+          "#1A3A8F",
+          "#F2EBDD",
+          "#F28B4B"
+        ],
+        "seed": 2
+      },
+      "story": "Thousands of tiny knots, pinched and tied before dyeing. This is the print the word bandana comes from.",
+      "image": null
+    },
+    {
+      "id": "rooted-grid",
+      "name": "Rooted Grid",
+      "collection": "indigo-origins",
+      "price": 549,
+      "pattern": {
+        "type": "blockgrid",
+        "colors": [
+          "#17296A",
+          "#EFE7D6"
+        ],
+        "seed": 5
+      },
+      "story": "A square block stamped row after row. The small wobbles are the hand of the printer.",
+      "image": null
+    },
+    {
+      "id": "diamond-kalam",
+      "name": "Diamond Kalam",
+      "collection": "indigo-origins",
+      "price": 549,
+      "pattern": {
+        "type": "diamond",
+        "colors": [
+          "#1B2C6E",
+          "#EFE7D6"
+        ],
+        "seed": 9
+      },
+      "story": "A diamond trellis with a four-petal flower in every window.",
+      "image": null
+    },
+    {
+      "id": "booti-bloom",
+      "name": "Booti Bloom",
+      "collection": "indigo-origins",
+      "price": 549,
+      "pattern": {
+        "type": "booti",
+        "colors": [
+          "#1A2B66",
+          "#EFE7D6",
+          "#F28B4B"
+        ],
+        "seed": 4
+      },
+      "story": "Booti are the small repeat flowers of Indian block print. Here they bloom in indigo.",
+      "image": null
+    },
+    {
+      "id": "sand-garden",
+      "name": "Sand Garden",
+      "collection": "indigo-origins",
+      "price": 599,
+      "pattern": {
+        "type": "floral",
+        "colors": [
+          "#E6D8B8",
+          "#253C7C"
+        ],
+        "seed": 11
+      },
+      "story": "Indigo florals on undyed sand cotton. The quiet one in the drop.",
+      "image": null
+    },
+    {
+      "id": "marigold-jaal",
+      "name": "Marigold Jaal",
+      "collection": "jaal",
+      "price": 599,
+      "badge": "Bestseller",
+      "pattern": {
+        "type": "jaal",
+        "colors": [
+          "#C8961C",
+          "#1D6A5B",
+          "#E2582C",
+          "#F4EDDD"
+        ],
+        "seed": 6
+      },
+      "story": "Mustard, teal and marigold, the colours of a wedding market in full swing.",
+      "image": null
+    },
+    {
+      "id": "saffron-jaal",
+      "name": "Saffron Jaal",
+      "collection": "jaal",
+      "price": 599,
+      "pattern": {
+        "type": "jaal",
+        "colors": [
+          "#DE6A2A",
+          "#A6B9D6",
+          "#F4EDDD",
+          "#2A3D73"
+        ],
+        "seed": 13
+      },
+      "story": "Saffron ground with pale blue blooms caught in the net.",
+      "image": null
+    },
+    {
+      "id": "artichoke-blue",
+      "name": "Artichoke Blue",
+      "collection": "jaal",
+      "price": 599,
+      "pattern": {
+        "type": "artichoke",
+        "colors": [
+          "#1C4C84",
+          "#F4EDDD",
+          "#E2582C"
+        ],
+        "seed": 8
+      },
+      "story": "Stacked buds with a red tip, printed on deep blue.",
+      "image": null
+    },
+    {
+      "id": "artichoke-night",
+      "name": "Artichoke Night",
+      "collection": "jaal",
+      "price": 599,
+      "badge": "New",
+      "pattern": {
+        "type": "artichoke",
+        "colors": [
+          "#131313",
+          "#F4EDDD",
+          "#E2582C"
+        ],
+        "seed": 12
+      },
+      "story": "The same bud print, after dark.",
+      "image": null
+    },
+    {
+      "id": "midnight-satin",
+      "name": "Midnight Satin",
+      "collection": "satin",
+      "price": 799,
+      "pattern": {
+        "type": "satin",
+        "colors": [
+          "#13255A",
+          "#5C77C9"
+        ],
+        "seed": 1
+      },
+      "story": "Navy satin that catches the light every time you move.",
+      "image": null
+    },
+    {
+      "id": "champagne-satin",
+      "name": "Champagne Satin",
+      "collection": "satin",
+      "price": 799,
+      "badge": "New",
+      "pattern": {
+        "type": "satin",
+        "colors": [
+          "#B8976A",
+          "#F3E3C4"
+        ],
+        "seed": 2
+      },
+      "story": "Warm champagne. Ties beautifully in hair.",
+      "image": null
+    },
+    {
+      "id": "cobalt-satin",
+      "name": "Cobalt Satin",
+      "collection": "satin",
+      "price": 799,
+      "pattern": {
+        "type": "satin",
+        "colors": [
+          "#1A3FB0",
+          "#7FA2FF"
+        ],
+        "seed": 3
+      },
+      "story": "Our signature blue, in satin.",
+      "image": null
+    },
+    {
+      "id": "web-of-rules",
+      "name": "Web of Rules",
+      "collection": "hand-painted",
+      "price": 1299,
+      "badge": "Limited",
+      "stock": 12,
+      "pattern": {
+        "type": "web",
+        "colors": [
+          "#0B0B0D",
+          "#F1EFEA",
+          "#D9442B"
+        ],
+        "seed": 4
+      },
+      "story": "Hand painted webs in every corner, one sun in the middle. Only 12 made.",
+      "image": null
+    },
+    {
+      "id": "bleach-constellation",
+      "name": "Bleach Constellation",
+      "collection": "hand-painted",
+      "price": 1199,
+      "badge": "Limited",
+      "stock": 15,
+      "pattern": {
+        "type": "bleach",
+        "colors": [
+          "#1B2E66",
+          "#E9EEF8"
+        ],
+        "seed": 17
+      },
+      "story": "Bleach rings and stars drawn onto indigo cotton by hand. Only 15 made.",
+      "image": null
+    },
+    {
+      "id": "eclipse-sigil",
+      "name": "Eclipse Sigil",
+      "collection": "hand-painted",
+      "price": 1299,
+      "badge": "Limited",
+      "stock": 10,
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#0B0B0D",
+          "#F1EFEA",
+          "#D9442B"
+        ],
+        "seed": 9
+      },
+      "story": "An ornamental frame around a single star. Only 10 made.",
+      "image": null
+    }
+  ]
+}
