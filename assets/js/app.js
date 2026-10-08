@@ -40,7 +40,7 @@
   };
   const MESSAGES = ['Remain Untied', 'Always Becoming', 'Follow The Orbit', 'Move Freely', 'The Future Is Unwritten', 'Born To Wander'];
   const ANNOUNCE = ['Free shipping in India over ₹999', 'Bundle & save: 2 for ₹899', 'Limited drops', 'Born in India', 'New: Untied Universe, collection 01', 'Remain untied'];
-  const INSTAGRAM = 'https://instagram.com/untiedco'; // placeholder handle until Aishwarya confirms the real one
+  const INSTAGRAM = 'https://www.instagram.com/untied.in/';
   const VALUES = [['Freedom', 'Expression without restriction.'], ['Movement', 'Growth through change.'], ['Curiosity', 'A desire to explore beyond the familiar.'], ['Individuality', 'No two journeys are identical.'], ['Optimism', 'Believing there is always another horizon.']];
 
   let DATA = { products: [], collections: [] };
@@ -331,7 +331,7 @@ ${bundles()}
     if (kind === 'contact') return `<section class="wrap page-head"><p class="ui pink">✦ Say hello</p><h1 class="display">Contact</h1><p class="lede" style="max-width:560px">Questions about an order, a collaboration, or just want to talk stars? We usually reply within two working days.</p></section>
     <section class="wrap" style="padding-bottom:110px;max-width:980px;margin-inline:0"><div class="acc ui">${[
       ['Email', '<a class="link" href="mailto:hello@untied.in">hello@untied.in</a>'],
-      ['Instagram', `<a class="link" href="${INSTAGRAM}" target="_blank" rel="noopener">@untiedco</a>`],
+      ['Instagram', `<a class="link" href="${INSTAGRAM}" target="_blank" rel="noopener">@untied.in</a>`],
       ['Orders & exchanges', 'Include your order number (it starts with UNT-) so we can find it quickly.'],
       ['Collaborations & pop-ups', 'Tell us about your event or idea and we will get back to you.']
     ].map(([q, a]) => `<details open><summary>${q}</summary><div class="body"><p>${a}</p></div></details>`).join('')}</div></section>`;
