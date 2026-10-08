@@ -78,7 +78,7 @@
       </a>
       <button class="add" data-add="${p.id}" aria-label="Add ${esc(p.name)} to bag"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
       <div class="card-info">
-        <div><h3>${esc(p.name)}</h3><p class="ui dim">${esc(c ? c.name : '')}</p></div>
+        <div><h3>${esc(p.name)}</h3><p class="ui dim">${p.code ? 'No. ' + p.code + ' · ' : ''}${esc(c ? c.name : '')}</p></div>
         <span class="price">${inr(p.price)}</span>
       </div>
     </article>`;
@@ -210,7 +210,7 @@
         </div>
         <div class="buy">
           <div style="display:grid;gap:14px">
-            <p class="ui pink" style="margin:0">${esc(c.name)}${c.kicker ? ' · ' + esc(c.kicker) : ''}</p>
+            <p class="ui pink" style="margin:0">${p.code ? 'No. ' + p.code + ' · ' : ''}${esc(c.name)}${c.kicker ? ' · ' + esc(c.kicker) : ''}</p>
             <h1 class="display">${esc(p.name)}</h1>
             <span class="price" id="pdpPrice">${inr(p.price)}</span>
           </div>
@@ -590,8 +590,11 @@
   }
   function search(q) {
     q = q.trim().toLowerCase();
-    const res = q ? DATA.products.filter(p => (p.name + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
-    $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try indigo, satin or jaal.</p>`;
+    // A product code (001, #2, no. 3) finds that exact bandana
+    const num = q.replace(/^(#|no\.?\s*)/, '');
+    const byCode = /^\d{1,3}$/.test(num) ? DATA.products.filter(p => p.code === num.padStart(3, '0')) : [];
+    const res = byCode.length ? byCode : q ? DATA.products.filter(p => (p.name + ' ' + (p.code || '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
+    $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try a code like 001, or galaxy or satin.</p>`;
   }
   function openSearch(open = true) {
     $('#search').classList.toggle('open', open); document.body.style.overflow = open ? 'hidden' : '';

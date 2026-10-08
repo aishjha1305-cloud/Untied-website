@@ -18,6 +18,7 @@
   "products": [
     {
       "id": "spiral-galaxy",
+      "code": "001",
       "name": "Spiral Galaxy",
       "collection": "universe",
       "price": 899,
@@ -37,6 +38,7 @@
     },
     {
       "id": "north-star",
+      "code": "002",
       "name": "North Star",
       "collection": "universe",
       "price": 899,
@@ -56,6 +58,7 @@
     },
     {
       "id": "nebula-drift",
+      "code": "003",
       "name": "Nebula Drift",
       "collection": "universe",
       "price": 899,
@@ -75,6 +78,7 @@
     },
     {
       "id": "lilac-orbit",
+      "code": "004",
       "name": "Lilac Orbit",
       "collection": "universe",
       "price": 899,
