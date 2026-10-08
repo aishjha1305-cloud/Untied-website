@@ -257,30 +257,55 @@ ${bundles()}
 
   // Ways to wear page: a photo per way when one is listed in products.json `ways`, otherwise the scarf folded into that shape
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  function wayArt(w, i) {
-    const photo = (DATA.ways || {})[slug(w.name)], p = DATA.products[i % DATA.products.length];
-    if (photo) return `<img class="way-photo" src="${photo}" alt="${esc(w.name)}: bandana worn this way" loading="lazy">`;
-    const t = `rotate(${w.shape === 'diamond' ? 45 : w.rot}deg) scale(${w.shape === 'diamond' ? .74 : w.shape === 'roll' ? 1.08 : 1})`;
-    return `<span class="dots"></span><div class="fold" style="clip-path:polygon(${SHAPES[w.shape]});transform:${t}"><img src="${P.url(p)}" alt="${esc(w.name)}: ${esc(p.name)} folded" loading="lazy"></div>`;
-  }
-  function viewWays(type = 'all') {
+  const wayPhoto = w => (DATA.ways || {})[slug(w.name)];
+  const wayPrint = i => DATA.products[i % DATA.products.length];
+  function viewWays() {
     const types = [['all', 'All'], ['style', 'Style'], ['utility', 'Utility'], ['carry', 'Carry']];
     return `
-    <section class="wrap page-head">
-      <span class="dots fade-down" style="opacity:.14"></span>
-      <p class="ui pink">✦ Ways to wear · ${WAYS.length} ways</p>
-      <h1 class="display">One square. Twelve ways.</h1>
-      <p class="lede">In your hair, around your neck, on your wrist, on your bag, or over your face on a dusty ride. One Untied bandana goes with every outfit and every orbit.</p>
-    </section>
-    <section class="wrap" style="padding-bottom:110px">
-      <div class="toolbar"><div class="cats" role="group" aria-label="Filter ways">${types.map(([id, l]) => `<button class="cat ${id === type ? 'on' : ''}" data-way-type="${id}">${l}</button>`).join('')}</div><span class="ui dim" id="waysCount">${WAYS.length} ways</span></div>
-      <div class="ways-page">${WAYS.map((w, i) => { const p = DATA.products[i % DATA.products.length]; return `
-        <article class="way-card" data-type="${w.type}" data-reveal style="--d:${(i % 3) * 80}ms">
-          <div class="way-media${(DATA.ways || {})[slug(w.name)] ? ' has-photo' : ''}">${wayArt(w, i)}<span class="n ui">${pad(i + 1)}</span></div>
-          <div class="way-body"><p class="ui pink">${esc(w.type)}</p><h2>${esc(w.name)}</h2><p>${esc(w.how)}</p><a class="link ui dim" href="#p-${p.id}">Shown in ${esc(p.name)}</a></div>
-        </article>`; }).join('')}</div>
-      <div class="ways-cta" data-reveal><h2 class="display">Find your square</h2><a class="btn" href="#shop">Shop the collection ${arrow}</a></div>
+    <section class="wrap wx">
+      <div class="wx-stage" id="wxStage">
+        <span class="dots"></span>
+        <img class="way-photo" id="wxPhoto" alt="" hidden>
+        <div class="fold" id="wxFold"><img id="wxImg" alt=""></div>
+        <span class="wx-n ui" id="wxN"></span>
+        <button class="wx-arrow prev" data-wx-step="-1" aria-label="Previous way">←</button><button class="wx-arrow next" data-wx-step="1" aria-label="Next way">→</button>
+      </div>
+      <div class="wx-panel">
+        <div><p class="ui pink" style="margin:0">✦ Ways to wear · ${WAYS.length} ways</p><h1 class="display">One square. Twelve ways.</h1></div>
+        <div class="cats" role="group" aria-label="Filter ways">${types.map(([id, l]) => `<button class="cat ${id === 'all' ? 'on' : ''}" data-way-type="${id}">${l}</button>`).join('')}</div>
+        <ol class="wx-list">${WAYS.map((w, i) => `<li><button class="wx-row" data-wx="${i}" data-type="${w.type}"><span class="ui">${pad(i + 1)}</span>${esc(w.name)}</button></li>`).join('')}</ol>
+        <div class="wx-detail" aria-live="polite"><p class="ui pink" id="wxType"></p><h2 id="wxName"></h2><p id="wxHow"></p><a class="link ui dim" id="wxShown" href="#shop"></a></div>
+        <a class="btn" href="#shop">Shop the collection ${arrow}</a>
+      </div>
     </section>`;
+  }
+  function bindWaysPage() {
+    let cur = 0;
+    const show = i => {
+      cur = i; const w = WAYS[i], p = wayPrint(i), photo = wayPhoto(w);
+      $$('.wx-row').forEach(r => { const on = +r.dataset.wx === i; r.classList.toggle('on', on); r.setAttribute('aria-current', String(on)); });
+      $('#wxPhoto').hidden = !photo; $('#wxFold').hidden = !!photo;
+      if (photo) { $('#wxPhoto').src = photo; $('#wxPhoto').alt = `${w.name}: bandana worn this way`; }
+      else {
+        const fold = $('#wxFold'), img = $('#wxImg');
+        fold.style.clipPath = `polygon(${SHAPES[w.shape]})`;
+        fold.style.transform = `rotate(${w.shape === 'diamond' ? 45 : w.rot}deg) scale(${w.shape === 'diamond' ? .74 : w.shape === 'roll' ? 1.08 : 1})`;
+        if (img.dataset.id !== p.id) { img.src = P.url(p); img.dataset.id = p.id; }
+        img.alt = `${p.name} folded for ${w.name}`;
+      }
+      $('#wxN').textContent = `${pad(i + 1)} / ${pad(WAYS.length)}`;
+      $('#wxType').textContent = w.type; $('#wxName').textContent = w.name; $('#wxHow').textContent = w.how;
+      const a = $('#wxShown'); a.textContent = `Shown in ${p.name}`; a.href = `#p-${p.id}`;
+    };
+    const visible = () => $$('.wx-row').filter(r => !r.closest('li').hidden).map(r => +r.dataset.wx);
+    $$('.wx-row').forEach(r => { r.addEventListener('click', () => show(+r.dataset.wx)); r.addEventListener('mouseenter', () => fine && show(+r.dataset.wx)); });
+    $$('[data-wx-step]').forEach(b => b.addEventListener('click', () => { const v = visible(); show(v[(v.indexOf(cur) + +b.dataset.wxStep + v.length) % v.length]); }));
+    $$('[data-way-type]').forEach(b => b.addEventListener('click', () => {
+      $$('[data-way-type]').forEach(x => x.classList.toggle('on', x === b));
+      $$('.wx-row').forEach(r => { r.closest('li').hidden = b.dataset.wayType !== 'all' && r.dataset.type !== b.dataset.wayType; });
+      show(visible()[0]);
+    }));
+    show(0);
   }
 
   function viewStory() {
@@ -541,6 +566,7 @@ ${bundles()}
         if (r.name === 'shop') { renderShopGrid(r.filter || 'all', shop.sort); $('#sortSel').value = shop.sort; }
         if (r.name === 'product') bindProduct(byId(r.id));
         if (r.name === 'home') bindHome();
+        if (r.name === 'ways') bindWaysPage();
         if (r.name === 'story') HT.mount($('#storyCanvas'), { src: A.symbol, step: 7, fit: .7, field: true }).catch(() => {});
         setupReveal(); parallax();
       }
@@ -680,12 +706,6 @@ ${bundles()}
     document.addEventListener('click', e => {
       const add = e.target.closest('[data-add]');
       if (add) { e.preventDefault(); addToCart(add.dataset.add, 'classic', 1, add.closest('.card')?.querySelector('.card-media') || add); return; }
-      const wt = e.target.closest('[data-way-type]');
-      if (wt) {
-        $$('[data-way-type]').forEach(b => b.classList.toggle('on', b === wt));
-        const cards = $$('.way-card'); cards.forEach(c => { c.hidden = wt.dataset.wayType !== 'all' && c.dataset.type !== wt.dataset.wayType; });
-        $('#waysCount').textContent = `${cards.filter(c => !c.hidden).length} ways`; return;
-      }
       const f = e.target.closest('[data-filter]');
       if (f) { location.hash = f.dataset.filter === 'all' ? 'shop' : 'c-' + f.dataset.filter; return; }
       if (e.target.closest('[data-open-bag]')) { openDrawer(true); return; }

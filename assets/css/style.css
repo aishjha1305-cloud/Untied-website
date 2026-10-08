@@ -590,23 +590,42 @@ html.star-cursor input, html.star-cursor textarea { cursor: text !important; }
 .picks.fixed .pick { cursor: default; opacity: 1; }
 @media (max-width: 520px) { .picks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* ways to wear page */
-.ways-page { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 24px; margin-top: 28px; }
-.way-card { display: grid; gap: 18px; align-content: start; min-width: 0; }
-.way-card[hidden] { display: none; }
-.way-media { position: relative; aspect-ratio: 4 / 5; background: var(--space-2); border-radius: 4px; overflow: hidden; display: grid; place-items: center; }
-.way-media .dots { position: absolute; inset: 0; opacity: .5; }
-.way-media .fold { width: 62%; transition: transform 1s var(--ease-out); }
-.way-media .way-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
-.way-card:hover .way-photo { transform: scale(1.05); }
-.way-media .n { position: absolute; top: 12px; left: 12px; color: var(--moon); }
-.way-body { display: grid; gap: 8px; }
-.way-body p { margin: 0; }
-.way-body .ui.pink { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
-.way-body h2 { margin: 0; font: 400 20px/1.15 var(--f-display); text-transform: uppercase; letter-spacing: .04em; }
-.way-body > p:not(.ui) { color: var(--moon-dim); font-size: 15px; }
-.way-body a { justify-self: start; font-size: 11px; }
-.ways-cta { margin-top: 90px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 40px; }
-.ways-cta h2 { margin: 0; font-size: clamp(28px, 4vw, 52px); }
-@media (max-width: 960px) { .ways-page { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .ways-page { grid-template-columns: 1fr; gap: 36px; } }
+/* ways to wear page: stage + compact list, fits one screen */
+.wx { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding-block: clamp(20px, 3vw, 40px) 80px; min-height: calc(100svh - 110px); }
+.wx-stage { position: relative; aspect-ratio: 1; max-height: calc(100svh - 150px); width: 100%; justify-self: center; background: var(--space-2); border-radius: 4px; overflow: hidden; display: grid; place-items: center; }
+.wx-stage .dots { position: absolute; inset: 0; opacity: .5; }
+.wx-stage .way-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.wx-stage .fold { width: 62%; }
+.wx-n { position: absolute; top: 14px; left: 16px; color: var(--moon); }
+.wx-arrow { position: absolute; bottom: 14px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); color: var(--moon); background: var(--space); font-size: 16px; transition: border-color .3s; }
+.wx-arrow:hover { border-color: var(--moon); }
+.wx-arrow.prev { right: 62px; } .wx-arrow.next { right: 14px; }
+.wx-panel { display: grid; gap: 22px; align-content: center; min-width: 0; }
+.wx-panel h1 { font-size: clamp(30px, 3.6vw, 56px); margin: 10px 0 0; }
+.wx-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; border-top: 1px solid var(--line); }
+.wx-list li[hidden] { display: none; }
+.wx-row { width: 100%; display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); text-align: left; font: 400 13px/1.3 var(--f-display); text-transform: uppercase; letter-spacing: .04em; color: var(--moon-dim); transition: color .3s, padding .4s var(--ease-out); }
+.wx-row .ui { font-size: 10px; opacity: .7; }
+.wx-row:hover, .wx-row.on { color: var(--moon); }
+.wx-row.on { padding-left: 8px; }
+.wx-row.on .ui { color: var(--saturn); opacity: 1; }
+.wx-detail { display: grid; gap: 8px; min-height: 132px; align-content: start; }
+.wx-detail p, .wx-detail h2 { margin: 0; }
+.wx-detail .ui.pink { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+.wx-detail h2 { font: 400 22px/1.15 var(--f-display); text-transform: uppercase; letter-spacing: .04em; }
+.wx-detail #wxHow { color: var(--moon-dim); font-size: 16px; }
+.wx-detail a { justify-self: start; font-size: 11px; }
+.wx-panel > .btn { justify-self: start; }
+@media (max-width: 860px) {
+  .wx { grid-template-columns: 1fr; min-height: 0; gap: 18px; padding-top: 12px; }
+  .wx-panel { display: contents; }
+  .wx-panel > div:first-child { order: -2; }
+  .wx-stage { order: -1; max-height: 52svh; max-width: 52svh; }
+  .wx-panel h1 { font-size: 30px; }
+  .wx-list { display: flex; overflow-x: auto; gap: 8px; border: 0; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .wx-list::-webkit-scrollbar { display: none; }
+  .wx-list li { flex: none; scroll-snap-align: start; }
+  .wx-row { border: 1px solid var(--line); border-radius: 99px; padding: 8px 14px; white-space: nowrap; font-size: 12px; }
+  .wx-row.on { padding-left: 14px; border-color: var(--saturn); }
+  .wx-detail { min-height: 0; }
+}
