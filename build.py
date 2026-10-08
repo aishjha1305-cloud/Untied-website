@@ -16,6 +16,8 @@ for prod in products['products'] + products.get('packs', []):
     for key in ('image', 'imageDetail'):
         if prod.get(key):
             prod[key] = uri(prod[key], 'image/webp' if prod[key].endswith('.webp') else 'image/jpeg' if prod[key].endswith('.jpg') else 'image/png')
+for k, rel in products.get('ways', {}).items():
+    products['ways'][k] = uri(rel, 'image/webp' if rel.endswith('.webp') else 'image/jpeg' if rel.endswith('.jpg') else 'image/png')
 data = json.dumps(products, separators=(',', ':'))
 js = '\n'.join((root / f'assets/js/{n}.js').read_text() for n in ('patterns', 'halftone', 'app'))
 body = html.split('<!--BODY-->')[1].split('<!--/BODY-->')[0]

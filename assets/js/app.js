@@ -134,7 +134,7 @@
 ${bundles()}
 
     <section class="section wrap ways" id="ways">
-      ${head('002', 'Ways to wear', 'One square. Twelve ways.')}
+      ${head('002', 'Ways to wear', 'One square. Twelve ways.', `<a class="btn ghost" href="#ways">See all ways ${arrow}</a>`)}
       <div class="why" data-reveal>
         <p class="lede">Untied is built to elevate your fashion game with one simple accessory. A bandana is useful every single day and says something about who you are, whether it is in your hair, on your wrist or keeping the dust out on a ride.</p>
         <div class="why-stats ui">
@@ -253,6 +253,34 @@ ${bundles()}
       </div>
       <section class="section" style="padding-top:0">${head('✦', 'Same orbit', p.count ? 'More bundles and prints' : 'You may also like')}<div class="grid">${more.map(card).join('')}</div></section>
     </div>`;
+  }
+
+  // Ways to wear page: a photo per way when one is listed in products.json `ways`, otherwise the scarf folded into that shape
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  function wayArt(w, i) {
+    const photo = (DATA.ways || {})[slug(w.name)], p = DATA.products[i % DATA.products.length];
+    if (photo) return `<img class="way-photo" src="${photo}" alt="${esc(w.name)}: bandana worn this way" loading="lazy">`;
+    const t = `rotate(${w.shape === 'diamond' ? 45 : w.rot}deg) scale(${w.shape === 'diamond' ? .74 : w.shape === 'roll' ? 1.08 : 1})`;
+    return `<span class="dots"></span><div class="fold" style="clip-path:polygon(${SHAPES[w.shape]});transform:${t}"><img src="${P.url(p)}" alt="${esc(w.name)}: ${esc(p.name)} folded" loading="lazy"></div>`;
+  }
+  function viewWays(type = 'all') {
+    const types = [['all', 'All'], ['style', 'Style'], ['utility', 'Utility'], ['carry', 'Carry']];
+    return `
+    <section class="wrap page-head">
+      <span class="dots fade-down" style="opacity:.14"></span>
+      <p class="ui pink">✦ Ways to wear · ${WAYS.length} ways</p>
+      <h1 class="display">One square. Twelve ways.</h1>
+      <p class="lede">In your hair, around your neck, on your wrist, on your bag, or over your face on a dusty ride. One Untied bandana goes with every outfit and every orbit.</p>
+    </section>
+    <section class="wrap" style="padding-bottom:110px">
+      <div class="toolbar"><div class="cats" role="group" aria-label="Filter ways">${types.map(([id, l]) => `<button class="cat ${id === type ? 'on' : ''}" data-way-type="${id}">${l}</button>`).join('')}</div><span class="ui dim" id="waysCount">${WAYS.length} ways</span></div>
+      <div class="ways-page">${WAYS.map((w, i) => { const p = DATA.products[i % DATA.products.length]; return `
+        <article class="way-card" data-type="${w.type}" data-reveal style="--d:${(i % 3) * 80}ms">
+          <div class="way-media${(DATA.ways || {})[slug(w.name)] ? ' has-photo' : ''}">${wayArt(w, i)}<span class="n ui">${pad(i + 1)}</span></div>
+          <div class="way-body"><p class="ui pink">${esc(w.type)}</p><h2>${esc(w.name)}</h2><p>${esc(w.how)}</p><a class="link ui dim" href="#p-${p.id}">Shown in ${esc(p.name)}</a></div>
+        </article>`; }).join('')}</div>
+      <div class="ways-cta" data-reveal><h2 class="display">Find your square</h2><a class="btn" href="#shop">Shop the collection ${arrow}</a></div>
+    </section>`;
   }
 
   function viewStory() {
@@ -499,8 +527,8 @@ ${bundles()}
     const h = location.hash.replace('#', '') || 'home';
     if (h.startsWith('p-') && byId(h.slice(2))) return { name: 'product', id: h.slice(2) };
     if (h.startsWith('c-') && coll(h.slice(2))) return { name: 'shop', filter: h.slice(2) };
-    if (['shop', 'story', 'checkout', 'order', 'care', 'faq', 'terms', 'contact'].includes(h)) return { name: h };
-    if (['collections', 'ways', 'drops', 'manifesto'].includes(h)) return { name: 'home', anchor: h };
+    if (['shop', 'story', 'ways', 'checkout', 'order', 'care', 'faq', 'terms', 'contact'].includes(h)) return { name: h };
+    if (['collections', 'drops', 'manifesto'].includes(h)) return { name: 'home', anchor: h };
     return { name: 'home' };
   }
   let first = true, last = '';
@@ -508,7 +536,7 @@ ${bundles()}
     const r = parse(), app = $('#app'), k = r.name + (r.id || '') + (r.filter || '');
     const go = () => {
       if (k !== last || r.name !== 'home') {
-        app.innerHTML = r.name === 'product' ? viewProduct(byId(r.id)) : r.name === 'shop' ? viewShop(r.filter || 'all') : r.name === 'story' ? viewStory()
+        app.innerHTML = r.name === 'product' ? viewProduct(byId(r.id)) : r.name === 'shop' ? viewShop(r.filter || 'all') : r.name === 'story' ? viewStory() : r.name === 'ways' ? viewWays()
           : r.name === 'checkout' ? viewCheckout() : r.name === 'order' ? viewConfirm() : ['care', 'faq', 'terms', 'contact'].includes(r.name) ? viewInfo(r.name) : viewHome();
         if (r.name === 'shop') { renderShopGrid(r.filter || 'all', shop.sort); $('#sortSel').value = shop.sort; }
         if (r.name === 'product') bindProduct(byId(r.id));
@@ -518,7 +546,7 @@ ${bundles()}
       }
       last = k;
       $$('.nav a').forEach(a => a.classList.toggle('active', a.dataset.nav === (r.anchor || r.name)));
-      document.title = r.name === 'product' ? `${byId(r.id).name} · Untied` : r.name === 'home' ? 'Untied' : 'Untied · ' + ({ shop: 'Store', story: 'Universe', checkout: 'Checkout', order: 'Order placed', care: 'Care', faq: 'Shipping' }[r.name] || '');
+      document.title = r.name === 'product' ? `${byId(r.id).name} · Untied` : r.name === 'home' ? 'Untied' : 'Untied · ' + ({ shop: 'Store', story: 'Universe', ways: 'Ways to wear', checkout: 'Checkout', order: 'Order placed', care: 'Care', faq: 'Shipping' }[r.name] || '');
       if (r.anchor) requestAnimationFrame(() => document.getElementById(r.anchor)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
       else if (!first) window.scrollTo(0, 0);
       first = false;
@@ -652,6 +680,12 @@ ${bundles()}
     document.addEventListener('click', e => {
       const add = e.target.closest('[data-add]');
       if (add) { e.preventDefault(); addToCart(add.dataset.add, 'classic', 1, add.closest('.card')?.querySelector('.card-media') || add); return; }
+      const wt = e.target.closest('[data-way-type]');
+      if (wt) {
+        $$('[data-way-type]').forEach(b => b.classList.toggle('on', b === wt));
+        const cards = $$('.way-card'); cards.forEach(c => { c.hidden = wt.dataset.wayType !== 'all' && c.dataset.type !== wt.dataset.wayType; });
+        $('#waysCount').textContent = `${cards.filter(c => !c.hidden).length} ways`; return;
+      }
       const f = e.target.closest('[data-filter]');
       if (f) { location.hash = f.dataset.filter === 'all' ? 'shop' : 'c-' + f.dataset.filter; return; }
       if (e.target.closest('[data-open-bag]')) { openDrawer(true); return; }
