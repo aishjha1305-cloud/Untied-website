@@ -12,7 +12,7 @@ for rel, mime in [('fonts/dune-rise.woff2', 'font/woff2'), ('img/wordmark-clean.
 assert '../' not in css, 'unbundled asset left in CSS'
 assets = {k: uri(f'assets/img/{f}', 'image/png') for k, f in [('symbol', 'symbol.png'), ('wordmark', 'wordmark-clean.png'), ('comet', 'halftone-comet.png')]}
 products = json.loads((root / 'data/products.json').read_text())
-for prod in products['products']:
+for prod in products['products'] + products.get('packs', []):
     for key in ('image', 'imageDetail'):
         if prod.get(key):
             prod[key] = uri(prod[key], 'image/webp' if prod[key].endswith('.webp') else 'image/jpeg' if prod[key].endswith('.jpg') else 'image/png')

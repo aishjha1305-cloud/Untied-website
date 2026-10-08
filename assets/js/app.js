@@ -39,13 +39,17 @@
     pocket: '22% 30%, 50% 30%, 78% 30%, 78% 50%, 78% 70%, 50% 70%, 22% 70%, 22% 50%'
   };
   const MESSAGES = ['Remain Untied', 'Always Becoming', 'Follow The Orbit', 'Move Freely', 'The Future Is Unwritten', 'Born To Wander'];
-  const ANNOUNCE = ['Free shipping in India over ₹999', 'Limited drops', 'Born in India', 'New: Untied Universe, collection 01', 'Remain untied'];
+  const ANNOUNCE = ['Free shipping in India over ₹999', 'Bundle & save: 2 for ₹899', 'Limited drops', 'Born in India', 'New: Untied Universe, collection 01', 'Remain untied'];
   const VALUES = [['Freedom', 'Expression without restriction.'], ['Movement', 'Growth through change.'], ['Curiosity', 'A desire to explore beyond the familiar.'], ['Individuality', 'No two journeys are identical.'], ['Optimism', 'Believing there is always another horizon.']];
 
   let DATA = { products: [], collections: [] };
   let cart = store.get('untied.cart', []);
   const inr = n => '₹' + n.toLocaleString('en-IN');
-  const byId = id => DATA.products.find(p => p.id === id);
+  const byId = id => DATA.products.find(p => p.id === id) || (DATA.packs || []).find(p => p.id === id);
+  // Packs: `count` scarves for one price. 2 and 3 packs let you pick prints; a pack as big as the collection includes every print.
+  const worth = p => p.count * DATA.products[0].price;
+  const fixedPicks = p => p.count >= DATA.products.length ? DATA.products.map(x => x.id) : null;
+  const packPrice = p => `<s class="was">${inr(worth(p))}</s> ${inr(p.price)}`;
   const coll = id => DATA.collections.find(c => c.id === id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const star = (style = '') => `<span class="star" style="${style}"></span>`;
@@ -72,19 +76,25 @@
     const c = coll(p.collection);
     return `<article class="card" data-reveal style="--d:${(i % 4) * 80}ms">
       <a class="card-media" href="#p-${p.id}" aria-label="${esc(p.name)}">
-        ${p.badge ? `<span class="badge">${esc(p.badge)}${p.stock ? ' · ' + p.stock + ' made' : ''}</span>` : ''}
+        ${p.count ? `<span class="badge">Save ${Math.round((1 - p.price / worth(p)) * 100)}%</span>` : p.badge ? `<span class="badge">${esc(p.badge)}${p.stock ? ' · ' + p.stock + ' made' : ''}</span>` : ''}
         <span class="flat${p.image ? ' photo' : ''}"><img src="${P.url(p)}" alt="" loading="lazy"></span>
         <span class="alt"><img src="${P.url(p, 'detail')}" alt="" loading="lazy"></span>
       </a>
       <button class="add" data-add="${p.id}" aria-label="Add ${esc(p.name)} to bag"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
       <div class="card-info">
-        <div><h3>${esc(p.name)}</h3><p class="ui dim">${p.code ? 'No. ' + p.code + ' · ' : ''}${esc(c ? c.name : '')}</p></div>
-        <span class="price">${inr(p.price)}</span>
+        <div><h3>${esc(p.name)}</h3><p class="ui dim">${p.count ? `${p.count} scarves · ${fixedPicks(p) ? 'Every print' : 'Pick any'}` : (p.code ? 'No. ' + p.code + ' · ' : '') + esc(c ? c.name : '')}</p></div>
+        <span class="price">${p.count ? packPrice(p) : inr(p.price)}</span>
       </div>
     </article>`;
   }
   const head = (idx, label, title, right = '') => `<div class="section-head" data-reveal><div><p class="ui">${idx} — ${label}</p><h2 class="display">${title}</h2></div>${right}</div>`;
   const cats = active => `<div class="cats" role="group" aria-label="Filter by collection"><button class="cat ${active === 'all' ? 'on' : ''}" data-filter="all">All</button>${DATA.collections.map(c => `<button class="cat ${active === c.id ? 'on' : ''}" data-filter="${c.id}">${esc(c.name)}</button>`).join('')}</div>`;
+
+  const bundles = () => (DATA.packs || []).length ? `
+    <section class="section wrap bundles" id="bundles" style="padding-top:0">
+      ${head('✦', 'Bundle &amp; save', 'Better in orbit', `<p class="ui dim" style="margin:0;max-width:300px">${DATA.packs.map(p => `${p.count} for ${inr(p.price)}`).join(' · ')}</p>`)}
+      <div class="grid">${DATA.packs.map(card).join('')}</div>
+    </section>` : '';
 
   /* ---------- views ---------- */
   function viewHome() {
@@ -120,6 +130,7 @@
       ${head('001', 'Store', 'New drops', `<a class="btn ghost" href="#shop">View all ${arrow}</a>`)}
       <div class="grid">${drops.map(card).join('')}</div>
     </section>
+${bundles()}
 
     <section class="section wrap ways" id="ways">
       ${head('002', 'Ways to wear', 'One square. Twelve ways.')}
@@ -176,7 +187,8 @@
         <label class="sort ui" for="sortSel">Sort <select id="sortSel"><option value="featured">Featured</option><option value="low">Price low–high</option><option value="high">Price high–low</option><option value="name">A–Z</option></select></label>
       </div>
       <div class="grid" id="shopGrid"></div>
-    </section>`;
+    </section>
+    ${!c || c.id === 'universe' ? bundles() : ''}`;
   }
   function renderShopGrid(filter, sort) {
     let list = DATA.products.filter(p => filter === 'all' || p.collection === filter);
@@ -189,9 +201,9 @@
   }
 
   function viewProduct(p) {
-    const c = coll(p.collection);
+    const c = coll(p.collection), fixed = p.count && fixedPicks(p);
     const rel = DATA.products.filter(x => x.collection === p.collection && x.id !== p.id);
-    const more = rel.concat(DATA.products.filter(x => x.collection !== p.collection)).slice(0, 4);
+    const more = p.count ? (DATA.packs.filter(x => x.id !== p.id).concat(DATA.products)).slice(0, 4) : rel.concat(DATA.products.filter(x => x.collection !== p.collection)).slice(0, 4);
     return `
     <div class="wrap">
       <nav class="crumbs ui" aria-label="Breadcrumb"><a href="#home">Home</a><span>/</span><a href="#shop">Store</a><span>/</span><a href="#c-${c.id}">${esc(c.name)}</a><span>/</span><span style="color:var(--moon)">${esc(p.name)}</span></nav>
@@ -210,30 +222,35 @@
         </div>
         <div class="buy">
           <div style="display:grid;gap:14px">
-            <p class="ui pink" style="margin:0">${p.code ? 'No. ' + p.code + ' · ' : ''}${esc(c.name)}${c.kicker ? ' · ' + esc(c.kicker) : ''}</p>
+            <p class="ui pink" style="margin:0">${p.count ? `Pack of ${p.count} · ` : p.code ? 'No. ' + p.code + ' · ' : ''}${esc(c.name)}${c.kicker ? ' · ' + esc(c.kicker) : ''}</p>
             <h1 class="display">${esc(p.name)}</h1>
-            <span class="price" id="pdpPrice">${inr(p.price)}</span>
+            ${p.count ? `<span class="price" id="pdpPrice">${packPrice(p)}<em class="save">Save ${inr(worth(p) - p.price)}</em></span>` : `<span class="price" id="pdpPrice">${inr(p.price)}</span>`}
           </div>
           <p class="lede">${esc(p.story)}</p>
           ${p.stock ? `<p class="limited ui"><i></i>Limited drop · only ${p.stock} made</p>` : ''}
+          ${p.count ? `<div class="opt">
+            <div class="opt-head ui"><span>${fixed ? 'Included' : `Pick ${p.count} prints`}</span><span id="pickNote">${fixed ? `All ${p.count} · Classic ${SIZES[0].dims}` : `0 / ${p.count} picked`}</span></div>
+            <div class="picks${fixed ? ' fixed' : ''}" role="group" aria-label="Prints in this pack">${DATA.products.map(x => `<button class="pick${fixed ? ' on' : ''}" data-pick="${x.id}" aria-pressed="${!!fixed}"${fixed ? ' disabled' : ''}><img src="${P.url(x)}" alt=""><b>${esc(x.name)}</b><small>No. ${x.code}</small></button>`).join('')}</div>
+            ${fixed ? '' : `<p class="ui dim" style="margin:0">Classic size, ${SIZES[0].dims}. Mix any prints.</p>`}
+          </div>` : `<p class="ui dim bundle-hint" style="margin:0">✦ Bundle &amp; save: ${DATA.packs.map(x => `<a class="link" href="#p-${x.id}">${x.count} for ${inr(x.price)}</a>`).join(' · ')}</p>
           <div class="opt">
             <div class="opt-head ui"><span>Size</span><span id="sizeNote">${SIZES[0].dims}</span></div>
             <div class="sizes" role="radiogroup" aria-label="Size">${SIZES.map((s, i) => `<button class="size ${i ? '' : 'on'}" role="radio" aria-checked="${!i}" data-size="${s.id}"><b>${s.label}</b><small>${s.dims}${s.add ? ' · +' + inr(s.add) : ''}</small></button>`).join('')}</div>
-          </div>
+          </div>`}
           <div class="buy-row">
             <div class="qty" aria-label="Quantity"><button data-q="-1" aria-label="Decrease">−</button><output id="pdpQty">1</output><button data-q="1" aria-label="Increase">+</button></div>
             <button class="btn" id="pdpAdd">Add to bag ${arrow}</button>
           </div>
           <div class="specs ui"><span>${esc(c.fabric)}</span>${c.features.map(f => `<span>✦ ${esc(f)}</span>`).join('')}</div>
           <div class="acc ui">
-            <details open><summary>Story of the print</summary><div class="body"><p>${esc(p.story)}</p><p>${esc(c.blurb)}</p></div></details>
+            <details open><summary>${p.count ? 'About the pack' : 'Story of the print'}</summary><div class="body"><p>${esc(p.story)}</p><p>${esc(c.blurb)}</p></div></details>
             <details><summary>How to wear</summary><div class="body"><p>Headband, neck knot, ponytail, wrist cuff, rider, sweatband, bag charm, pocket square, even gift wrap. One square, twelve ways and counting. Every box carries a QR code to our styling guide.</p><p><a class="link" href="#ways">See all ways to wear</a></p></div></details>
             <details><summary>Care</summary><div class="body"><p>Hand wash cold with mild soap. Dry in shade. Hand-dyed colours soften with the first wash.</p></div></details>
             <details><summary>Shipping &amp; returns</summary><div class="body"><p>Free shipping in India over ₹999. Exchanges within 7 days on unworn pieces.</p></div></details>
           </div>
         </div>
       </div>
-      <section class="section" style="padding-top:0">${head('✦', 'Same orbit', 'You may also like')}<div class="grid">${more.map(card).join('')}</div></section>
+      <section class="section" style="padding-top:0">${head('✦', 'Same orbit', p.count ? 'More bundles and prints' : 'You may also like')}<div class="grid">${more.map(card).join('')}</div></section>
     </div>`;
   }
 
@@ -323,16 +340,23 @@
   }
 
   /* ---------- cart ---------- */
-  const key = l => l.id + '|' + l.size;
+  const key = l => l.id + '|' + l.size + (l.picks ? '|' + l.picks.join(',') : '');
+  const lineNote = l => l.picks ? l.picks.map(id => byId(id).name).join(' · ') : (s => `${s.label} · ${s.dims}`)(SIZES.find(x => x.id === l.size));
   const unit = l => byId(l.id).price + (SIZES.find(s => s.id === l.size)?.add || 0);
   const subtotal = () => cart.reduce((s, l) => s + unit(l) * l.qty, 0);
   const count = () => cart.reduce((s, l) => s + l.qty, 0);
   const shipping = () => (subtotal() >= DATA.freeShippingOver || !cart.length ? 0 : 79);
   function saveCart() { store.set('untied.cart', cart); renderCart(); }
-  function addToCart(id, size = 'classic', qty = 1, fromEl) {
+  function addToCart(id, size = 'classic', qty = 1, fromEl, picks) {
     const p = byId(id); if (!p) return;
-    const ex = cart.find(l => l.id === id && l.size === size);
-    if (ex) ex.qty = Math.min(ex.qty + qty, 10); else cart.push({ id, size, qty });
+    if (p.count) {
+      picks = fixedPicks(p) || picks;
+      if (!picks || picks.length !== p.count) { location.hash = 'p-' + p.id; return; }
+      picks = DATA.products.map(x => x.id).filter(x => picks.includes(x));
+    }
+    const line = picks ? { id, size, qty, picks } : { id, size, qty };
+    const ex = cart.find(l => key(l) === key(line));
+    if (ex) ex.qty = Math.min(ex.qty + qty, 10); else cart.push(line);
     saveCart(); fly(p, fromEl); toast(`${p.name} added`);
   }
   function fly(p, fromEl) {
@@ -353,9 +377,9 @@
       ? `<span>${left > 0 ? `${inr(left)} away from free shipping` : '✦ Free shipping unlocked'}</span><div class="track"><div class="fill" style="width:${Math.min(100, subtotal() / DATA.freeShippingOver * 100)}%"></div></div>`
       : `<span>Free shipping in India over ${inr(DATA.freeShippingOver)}</span>`;
     $('#items').innerHTML = cart.length ? cart.map(l => {
-      const p = byId(l.id), s = SIZES.find(x => x.id === l.size);
+      const p = byId(l.id);
       return `<div class="item" data-key="${key(l)}"><a href="#p-${p.id}" data-close-drawer><img src="${P.url(p)}" alt=""></a>
-        <div><h3>${esc(p.name)}</h3><p class="ui dim">${s.label} · ${s.dims}</p><div class="qty"><button data-lq="-1" aria-label="Decrease">−</button><output>${l.qty}</output><button data-lq="1" aria-label="Increase">+</button></div></div>
+        <div><h3>${esc(p.name)}</h3><p class="ui dim">${esc(lineNote(l))}</p><div class="qty"><button data-lq="-1" aria-label="Decrease">−</button><output>${l.qty}</output><button data-lq="1" aria-label="Increase">+</button></div></div>
         <div style="text-align:right;display:grid;align-content:space-between"><span class="price">${inr(unit(l) * l.qty)}</span><button class="rm ui" data-rm>Remove</button></div></div>`;
     }).join('') : `<div class="drawer-empty"><span class="mask symbol"></span><p class="display" style="font-size:18px;color:var(--moon)">Your bag is empty</p><p class="ui">Every journey starts somewhere.</p><a class="btn" href="#shop" data-close-drawer>Start shopping ${arrow}</a></div>`;
     $('#drawerFoot').innerHTML = cart.length ? `<div class="sum ui"><span>Subtotal</span><span class="price">${inr(subtotal())}</span></div><a class="btn block" href="#checkout" data-close-drawer>Checkout · ${inr(subtotal() + shipping())}</a><p class="ui dim" style="margin:0;text-align:center">Shipping ${shipping() ? inr(shipping()) : 'free'} · taxes included</p>` : '';
@@ -435,7 +459,7 @@
         <button class="btn block" type="submit">Place order · ${inr(subtotal() + shipping())}</button>
       </form>
       <aside class="summary"><h2>Your order</h2>
-        ${cart.map(l => { const p = byId(l.id); return `<div class="sum"><span style="display:flex;gap:12px;align-items:center;min-width:0"><img src="${P.url(p)}" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:3px"><span>${esc(p.name)} × ${l.qty}<br><small class="ui dim">${SIZES.find(s => s.id === l.size).label}</small></span></span><span class="price">${inr(unit(l) * l.qty)}</span></div>`; }).join('')}
+        ${cart.map(l => { const p = byId(l.id); return `<div class="sum"><span style="display:flex;gap:12px;align-items:center;min-width:0"><img src="${P.url(p)}" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:3px"><span>${esc(p.name)} × ${l.qty}<br><small class="ui dim">${esc(l.picks ? lineNote(l) : SIZES.find(s => s.id === l.size).label)}</small></span></span><span class="price">${inr(unit(l) * l.qty)}</span></div>`; }).join('')}
         <div class="sum ui"><span>Subtotal</span><span class="price">${inr(subtotal())}</span></div>
         <div class="sum ui"><span>Shipping</span><span class="price">${shipping() ? inr(shipping()) : 'Free'}</span></div>
         <div class="sum total"><span>Total</span><span class="price" style="font-size:16px">${inr(subtotal() + shipping())}</span></div>
@@ -557,7 +581,18 @@
       $('#pdpPrice').textContent = inr(p.price + SIZES.find(s => s.id === size).add);
     }));
     $$('[data-q]').forEach(b => b.addEventListener('click', () => { qty = Math.max(1, Math.min(10, qty + +b.dataset.q)); $('#pdpQty').textContent = qty; }));
-    $('#pdpAdd').addEventListener('click', () => addToCart(p.id, size, qty, stage));
+    let picks = p.count ? fixedPicks(p) || [] : null;
+    const note = $('#pickNote');
+    if (p.count && !fixedPicks(p)) $$('[data-pick]').forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.pick;
+      picks = picks.includes(id) ? picks.filter(x => x !== id) : picks.concat(id).slice(-p.count);
+      $$('[data-pick]').forEach(x => { const on = picks.includes(x.dataset.pick); x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
+      note.textContent = `${picks.length} / ${p.count} picked`; note.classList.remove('pink');
+    }));
+    $('#pdpAdd').addEventListener('click', () => {
+      if (p.count && picks.length < p.count) { note.textContent = `Pick ${p.count - picks.length} more`; note.classList.add('pink'); return; }
+      addToCart(p.id, size, qty, stage, picks);
+    });
   }
 
   /* ---------- scroll effects ---------- */
@@ -593,7 +628,7 @@
     // A product code (001, #2, no. 3) finds that exact bandana
     const num = q.replace(/^(#|no\.?\s*)/, '');
     const byCode = /^\d{1,3}$/.test(num) ? DATA.products.filter(p => p.code === num.padStart(3, '0')) : [];
-    const res = byCode.length ? byCode : q ? DATA.products.filter(p => (p.name + ' ' + (p.code || '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
+    const res = byCode.length ? byCode : q ? DATA.products.concat(DATA.packs || []).filter(p => (p.name + ' ' + (p.code || '') + (p.count ? ' pack bundle combo set ' + p.count : '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
     $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try a code like 001, or galaxy or satin.</p>`;
   }
   function openSearch(open = true) {
@@ -671,7 +706,7 @@
       $('#app').innerHTML = `<section class="wrap confirm"><h1 class="display">The store didn't load</h1><p class="lede">data/products.json couldn't be read. Open the site through a local server, for example python3 -m http.server.</p></section>`;
       loader?.remove(); return;
     }
-    cart = cart.filter(l => byId(l.id));
+    cart = cart.filter(l => byId(l.id) && (!byId(l.id).count || (l.picks || []).length === byId(l.id).count));
     setThemeLabels(); $$('[data-theme-toggle]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); $('#mobileNav').classList.remove('open'); toggleTheme(); }));
     bindGlobal(); renderCart(); route(); cursor(); onScroll();
     if (!seen && !reduce) setTimeout(() => { loader.classList.add('done'); document.body.classList.remove('booting'); setTimeout(() => loader.remove(), 900); }, 1600);

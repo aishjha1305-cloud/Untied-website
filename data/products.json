@@ -21,7 +21,7 @@
       "code": "001",
       "name": "Spiral Galaxy",
       "collection": "universe",
-      "price": 899,
+      "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
@@ -41,7 +41,7 @@
       "code": "002",
       "name": "North Star",
       "collection": "universe",
-      "price": 899,
+      "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
@@ -61,7 +61,7 @@
       "code": "003",
       "name": "Nebula Drift",
       "collection": "universe",
-      "price": 899,
+      "price": 499,
       "badge": "Limited",
       "pattern": {
         "type": "sigil",
@@ -81,7 +81,7 @@
       "code": "004",
       "name": "Lilac Orbit",
       "collection": "universe",
-      "price": 899,
+      "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
@@ -95,6 +95,38 @@
       "story": "Halftone ripples and trail stars on saturn lilac satin. Born to wander.",
       "image": "assets/img/products/lilac-orbit.webp",
       "imageDetail": "assets/img/products/lilac-orbit-detail.webp"
+    }
+  ],
+  "packs": [
+    {
+      "id": "pack-2",
+      "name": "The Pair",
+      "count": 2,
+      "price": 899,
+      "collection": "universe",
+      "story": "Any two prints from Untied Universe. One to wear, one to share, or two for switching orbits.",
+      "image": "assets/img/products/pack-2.webp",
+      "imageDetail": "assets/img/products/pack-2-detail.webp"
+    },
+    {
+      "id": "pack-3",
+      "name": "The Trio",
+      "count": 3,
+      "price": 1299,
+      "collection": "universe",
+      "story": "Pick any three prints. Enough for every mood of the week.",
+      "image": "assets/img/products/pack-3.webp",
+      "imageDetail": "assets/img/products/pack-3-detail.webp"
+    },
+    {
+      "id": "pack-4",
+      "name": "The Whole Universe",
+      "count": 4,
+      "price": 1599,
+      "collection": "universe",
+      "story": "All four Untied Universe prints together: Spiral Galaxy, North Star, Nebula Drift and Lilac Orbit. The complete first collection.",
+      "image": "assets/img/products/pack-4.webp",
+      "imageDetail": "assets/img/products/pack-4-detail.webp"
     }
   ]
 }
