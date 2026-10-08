@@ -330,7 +330,7 @@ ${bundles()}
     };
     if (kind === 'contact') return `<section class="wrap page-head"><p class="ui pink">✦ Say hello</p><h1 class="display">Contact</h1><p class="lede" style="max-width:560px">Questions about an order, a collaboration, or just want to talk stars? We usually reply within two working days.</p></section>
     <section class="wrap" style="padding-bottom:110px;max-width:980px;margin-inline:0"><div class="acc ui">${[
-      ['Email', '<a class="link" href="mailto:hello@untied.in">hello@untied.in</a>'],
+      ['Email', '<a class="link" href="mailto:heyuntied@gmail.com">heyuntied@gmail.com</a>'],
       ['Instagram', `<a class="link" href="${INSTAGRAM}" target="_blank" rel="noopener">@untied.in</a>`],
       ['Orders & exchanges', 'Include your order number (it starts with UNT-) so we can find it quickly.'],
       ['Collaborations & pop-ups', 'Tell us about your event or idea and we will get back to you.']
