@@ -684,7 +684,7 @@ ${bundles()}
     const num = q.replace(/^(#|no\.?\s*)/, '');
     const byCode = /^\d{1,3}$/.test(num) ? DATA.products.filter(p => p.code === num.padStart(3, '0')) : [];
     const res = byCode.length ? byCode : q ? DATA.products.concat(DATA.packs || []).filter(p => (p.name + ' ' + (p.code || '') + (p.count ? ' pack bundle combo set ' + p.count : '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
-    $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try a code like 001, or galaxy or satin.</p>`;
+    $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try a code like 001, or wild or satin.</p>`;
   }
   function openSearch(open = true) {
     $('#search').classList.toggle('open', open); document.body.style.overflow = open ? 'hidden' : '';

@@ -578,7 +578,7 @@ html.star-cursor input, html.star-cursor textarea { cursor: text !important; }
 .price .save { font-style: normal; color: var(--saturn); margin-left: 12px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .bundle-hint { font-size: 11px; letter-spacing: .06em; }
 .bundle-hint a { color: var(--moon); }
-.picks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .pick { border: 1px solid var(--line); border-radius: 4px; padding: 10px 8px 12px; display: grid; gap: 6px; justify-items: center; text-align: center; position: relative; transition: border-color .3s, background .3s; }
 .pick img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .pick b { font: 400 11px/1.2 var(--f-display); text-transform: uppercase; }
@@ -588,7 +588,7 @@ html.star-cursor input, html.star-cursor textarea { cursor: text !important; }
 .picks:not(.fixed):has(.on) .pick:not(.on) img { opacity: .55; }
 .pick.on::after { content: "✦"; position: absolute; top: 6px; right: 8px; color: var(--saturn); font-size: 12px; }
 .picks.fixed .pick { cursor: default; opacity: 1; }
-@media (max-width: 520px) { .picks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .picks { gap: 8px; } .pick { padding: 8px 6px 10px; } }
 
 /* ways to wear page: stage + compact list, fits one screen */
 .wx { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding-block: clamp(20px, 3vw, 40px) 80px; min-height: calc(100svh - 110px); }

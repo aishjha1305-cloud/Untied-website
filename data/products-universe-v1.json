@@ -1,0 +1,133 @@
+{
+  "currency": "INR",
+  "freeShippingOver": 999,
+  "collections": [
+    {
+      "id": "universe",
+      "name": "Untied Universe",
+      "kicker": "Collection 01",
+      "fabric": "Satin",
+      "features": [
+        "Silky satin",
+        "Printed borders",
+        "Limited drop"
+      ],
+      "blurb": "Our first collection. Galaxies, guiding stars and nebulae, printed on satin that moves with you."
+    }
+  ],
+  "products": [
+    {
+      "id": "spiral-galaxy",
+      "code": "001",
+      "name": "Spiral Galaxy",
+      "collection": "universe",
+      "price": 499,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#FFF5C6",
+          "#FAE3FF"
+        ],
+        "seed": 3
+      },
+      "story": "A galaxy turning on nova blue satin, framed by a border of dotted orbits. Always becoming.",
+      "image": "assets/img/products/spiral-galaxy.webp",
+      "imageDetail": "assets/img/products/spiral-galaxy-detail.webp"
+    },
+    {
+      "id": "north-star",
+      "code": "002",
+      "name": "North Star",
+      "collection": "universe",
+      "price": 499,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#F2EBDD",
+          "#2A2A2A",
+          "#9A9A9A"
+        ],
+        "seed": 3
+      },
+      "story": "A single guiding star on moon white satin, its light reaching every corner. For finding your way.",
+      "image": "assets/img/products/north-star.webp",
+      "imageDetail": "assets/img/products/north-star-detail.webp"
+    },
+    {
+      "id": "nebula-drift",
+      "code": "003",
+      "name": "Nebula Drift",
+      "collection": "universe",
+      "price": 499,
+      "badge": "Limited",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#151C73",
+          "#E8E0F0",
+          "#FFF5C6"
+        ],
+        "seed": 3
+      },
+      "story": "A cloud of stardust drifting across deep blue satin. The future is unwritten.",
+      "image": "assets/img/products/nebula-drift.webp",
+      "imageDetail": "assets/img/products/nebula-drift-detail.webp"
+    },
+    {
+      "id": "lilac-orbit",
+      "code": "004",
+      "name": "Lilac Orbit",
+      "collection": "universe",
+      "price": 499,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#C9A8EC",
+          "#3B3B4F",
+          "#FFFFFF"
+        ],
+        "seed": 3
+      },
+      "story": "Halftone ripples and trail stars on saturn lilac satin. Born to wander.",
+      "image": "assets/img/products/lilac-orbit.webp",
+      "imageDetail": "assets/img/products/lilac-orbit-detail.webp"
+    }
+  ],
+  "packs": [
+    {
+      "id": "pack-2",
+      "name": "The Pair",
+      "count": 2,
+      "price": 899,
+      "collection": "universe",
+      "story": "Any two prints from Untied Universe. One to wear, one to share, or two for switching orbits.",
+      "image": "assets/img/products/pack-2.webp",
+      "imageDetail": "assets/img/products/pack-2-detail.webp"
+    },
+    {
+      "id": "pack-3",
+      "name": "The Trio",
+      "count": 3,
+      "price": 1299,
+      "collection": "universe",
+      "story": "Pick any three prints. Enough for every mood of the week.",
+      "image": "assets/img/products/pack-3.webp",
+      "imageDetail": "assets/img/products/pack-3-detail.webp"
+    },
+    {
+      "id": "pack-4",
+      "name": "The Whole Universe",
+      "count": 4,
+      "price": 1599,
+      "collection": "universe",
+      "story": "All four Untied Universe prints together: Spiral Galaxy, North Star, Nebula Drift and Lilac Orbit. The complete first collection.",
+      "image": "assets/img/products/pack-4.webp",
+      "imageDetail": "assets/img/products/pack-4-detail.webp"
+    }
+  ],
+  "ways": {}
+}

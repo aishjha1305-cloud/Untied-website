@@ -12,89 +12,129 @@
         "Printed borders",
         "Limited drop"
       ],
-      "blurb": "Our first collection. Galaxies, guiding stars and nebulae, printed on satin that moves with you."
+      "blurb": "Our first collection. Wild galaxies, stardust frames and a coral serpent, six prints made to move with you."
     }
   ],
   "products": [
     {
-      "id": "spiral-galaxy",
+      "id": "nova-wild",
       "code": "001",
-      "name": "Spiral Galaxy",
+      "name": "Nova Wild",
       "collection": "universe",
       "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
         "colors": [
-          "#151C73",
-          "#FFF5C6",
-          "#FAE3FF"
+          "#1B2350",
+          "#F2E9D6",
+          "#5E6BA8"
         ],
         "seed": 3
       },
-      "story": "A galaxy turning on nova blue satin, framed by a border of dotted orbits. Always becoming.",
-      "image": "assets/img/products/spiral-galaxy.webp",
-      "imageDetail": "assets/img/products/spiral-galaxy-detail.webp"
+      "story": "Leopard spots swirl through a nova blue galaxy, held in place by dotted orbits and guiding stars. Wild by nature.",
+      "image": "assets/img/products/nova-wild.webp",
+      "imageDetail": "assets/img/products/nova-wild-detail.webp"
     },
     {
-      "id": "north-star",
+      "id": "moon-wild",
       "code": "002",
-      "name": "North Star",
+      "name": "Moon Wild",
       "collection": "universe",
       "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
         "colors": [
-          "#F2EBDD",
-          "#2A2A2A",
-          "#9A9A9A"
+          "#151515",
+          "#FFFFFF",
+          "#8A8A8A"
         ],
         "seed": 3
       },
-      "story": "A single guiding star on moon white satin, its light reaching every corner. For finding your way.",
-      "image": "assets/img/products/north-star.webp",
-      "imageDetail": "assets/img/products/north-star-detail.webp"
+      "story": "The same wild galaxy in moonlight black and white. Goes with everything you own.",
+      "image": "assets/img/products/moon-wild.webp",
+      "imageDetail": "assets/img/products/moon-wild-detail.webp"
     },
     {
-      "id": "nebula-drift",
+      "id": "stardust-noir",
       "code": "003",
-      "name": "Nebula Drift",
+      "name": "Stardust Noir",
       "collection": "universe",
       "price": 499,
       "badge": "Limited",
       "pattern": {
         "type": "sigil",
         "colors": [
-          "#151C73",
-          "#E8E0F0",
-          "#FFF5C6"
+          "#1A1A1A",
+          "#F3E7C4",
+          "#F3E7C4"
         ],
         "seed": 3
       },
-      "story": "A cloud of stardust drifting across deep blue satin. The future is unwritten.",
-      "image": "assets/img/products/nebula-drift.webp",
-      "imageDetail": "assets/img/products/nebula-drift-detail.webp"
+      "story": "Four stars float on cream, framed by a black border of halftone swirls. Quiet, then it catches the light.",
+      "image": "assets/img/products/stardust-noir.webp",
+      "imageDetail": "assets/img/products/stardust-noir-detail.webp"
     },
     {
-      "id": "lilac-orbit",
+      "id": "coral-serpent",
       "code": "004",
-      "name": "Lilac Orbit",
+      "name": "Coral Serpent",
       "collection": "universe",
       "price": 499,
       "badge": "New",
       "pattern": {
         "type": "sigil",
         "colors": [
-          "#C9A8EC",
-          "#3B3B4F",
+          "#F07A7E",
+          "#1D2E6E",
+          "#F9A5A2"
+        ],
+        "seed": 3
+      },
+      "story": "A mirrored snakeskin in coral pink, finished with a navy border and the Untied mark in every corner. Shed what no longer fits.",
+      "image": "assets/img/products/coral-serpent.webp",
+      "imageDetail": "assets/img/products/coral-serpent-detail.webp"
+    },
+    {
+      "id": "nebula-wild",
+      "code": "005",
+      "name": "Nebula Wild",
+      "collection": "universe",
+      "price": 499,
+      "badge": "Limited",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#4A1428",
+          "#F6E3D3",
+          "#C04E8C"
+        ],
+        "seed": 3
+      },
+      "story": "Leopard galaxy in deep magenta, glowing with stardust. For nights that end at sunrise.",
+      "image": "assets/img/products/nebula-wild.webp",
+      "imageDetail": "assets/img/products/nebula-wild-detail.webp"
+    },
+    {
+      "id": "stardust-blue",
+      "code": "006",
+      "name": "Stardust Blue",
+      "collection": "universe",
+      "price": 499,
+      "badge": "New",
+      "pattern": {
+        "type": "sigil",
+        "colors": [
+          "#1E35A8",
+          "#F5EEDC",
           "#FFFFFF"
         ],
         "seed": 3
       },
-      "story": "Halftone ripples and trail stars on saturn lilac satin. Born to wander.",
-      "image": "assets/img/products/lilac-orbit.webp",
-      "imageDetail": "assets/img/products/lilac-orbit-detail.webp"
+      "story": "Royal blue swirls frame a cream sky of tiny stars. A classic for every orbit.",
+      "image": "assets/img/products/stardust-blue.webp",
+      "imageDetail": "assets/img/products/stardust-blue-detail.webp"
     }
   ],
   "packs": [
@@ -119,14 +159,14 @@
       "imageDetail": "assets/img/products/pack-3-detail.webp"
     },
     {
-      "id": "pack-4",
+      "id": "pack-all",
       "name": "The Whole Universe",
-      "count": 4,
-      "price": 1599,
+      "count": 6,
+      "price": 2399,
       "collection": "universe",
-      "story": "All four Untied Universe prints together: Spiral Galaxy, North Star, Nebula Drift and Lilac Orbit. The complete first collection.",
-      "image": "assets/img/products/pack-4.webp",
-      "imageDetail": "assets/img/products/pack-4-detail.webp"
+      "story": "All six Untied Universe prints together: Nova Wild, Moon Wild, Stardust Noir, Coral Serpent, Nebula Wild and Stardust Blue. The complete first collection.",
+      "image": "assets/img/products/pack-all.webp",
+      "imageDetail": "assets/img/products/pack-all-detail.webp"
     }
   ],
   "ways": {}
