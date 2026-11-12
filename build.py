@@ -16,6 +16,10 @@ for prod in products['products'] + products.get('packs', []):
     for key in ('image', 'imageDetail'):
         if prod.get(key):
             prod[key] = uri(prod[key], 'image/webp' if prod[key].endswith('.webp') else 'image/jpeg' if prod[key].endswith('.jpg') else 'image/png')
+for prod in products['products']:
+    for col in prod.get('colors', []):
+        for key in ('image', 'imageDetail'):
+            col[key] = uri(col[key], 'image/webp')
 for k, rel in products.get('ways', {}).items():
     products['ways'][k] = uri(rel, 'image/webp' if rel.endswith('.webp') else 'image/jpeg' if rel.endswith('.jpg') else 'image/png')
 data = json.dumps(products, separators=(',', ':'))

@@ -12,17 +12,40 @@
         "Printed borders",
         "Limited drop"
       ],
-      "blurb": "Our first collection. Wild galaxies, stardust frames and a coral serpent, six prints made to move with you."
+      "blurb": "Our first collection. Three prints, six colourways: Wild Galaxy, Stardust Frame and Coral Serpent, made to move with you."
     }
   ],
   "products": [
     {
-      "id": "nova-wild",
+      "id": "wild-galaxy",
       "code": "001",
-      "name": "Nova Wild",
+      "name": "Wild Galaxy",
       "collection": "universe",
       "price": 499,
       "badge": "New",
+      "colors": [
+        {
+          "id": "wild-nova",
+          "name": "Nova Blue",
+          "hex": "#1B2350",
+          "image": "assets/img/products/nova-wild.webp",
+          "imageDetail": "assets/img/products/nova-wild-detail.webp"
+        },
+        {
+          "id": "wild-moon",
+          "name": "Moonlight",
+          "hex": "#2A2A2A",
+          "image": "assets/img/products/moon-wild.webp",
+          "imageDetail": "assets/img/products/moon-wild-detail.webp"
+        },
+        {
+          "id": "wild-magenta",
+          "name": "Magenta",
+          "hex": "#7A1E48",
+          "image": "assets/img/products/nebula-wild.webp",
+          "imageDetail": "assets/img/products/nebula-wild-detail.webp"
+        }
+      ],
       "pattern": {
         "type": "sigil",
         "colors": [
@@ -32,37 +55,31 @@
         ],
         "seed": 3
       },
-      "story": "Leopard spots swirl through a nova blue galaxy, held in place by dotted orbits and guiding stars. Wild by nature.",
-      "image": "assets/img/products/nova-wild.webp",
-      "imageDetail": "assets/img/products/nova-wild-detail.webp"
+      "story": "Leopard spots swirl through a galaxy of stardust, held in place by dotted orbits, guiding stars and the Untied mark. Wild by nature, in three colours."
     },
     {
-      "id": "moon-wild",
+      "id": "stardust-frame",
       "code": "002",
-      "name": "Moon Wild",
-      "collection": "universe",
-      "price": 499,
-      "badge": "New",
-      "pattern": {
-        "type": "sigil",
-        "colors": [
-          "#151515",
-          "#FFFFFF",
-          "#8A8A8A"
-        ],
-        "seed": 3
-      },
-      "story": "The same wild galaxy in moonlight black and white. Goes with everything you own.",
-      "image": "assets/img/products/moon-wild.webp",
-      "imageDetail": "assets/img/products/moon-wild-detail.webp"
-    },
-    {
-      "id": "stardust-noir",
-      "code": "003",
-      "name": "Stardust Noir",
+      "name": "Stardust Frame",
       "collection": "universe",
       "price": 499,
       "badge": "Limited",
+      "colors": [
+        {
+          "id": "frame-noir",
+          "name": "Noir",
+          "hex": "#1A1A1A",
+          "image": "assets/img/products/stardust-noir.webp",
+          "imageDetail": "assets/img/products/stardust-noir-detail.webp"
+        },
+        {
+          "id": "frame-blue",
+          "name": "Royal Blue",
+          "hex": "#1E35A8",
+          "image": "assets/img/products/stardust-blue.webp",
+          "imageDetail": "assets/img/products/stardust-blue-detail.webp"
+        }
+      ],
       "pattern": {
         "type": "sigil",
         "colors": [
@@ -72,17 +89,24 @@
         ],
         "seed": 3
       },
-      "story": "Four stars float on cream, framed by a black border of halftone swirls. Quiet, then it catches the light.",
-      "image": "assets/img/products/stardust-noir.webp",
-      "imageDetail": "assets/img/products/stardust-noir-detail.webp"
+      "story": "Four stars float on a cream sky, framed by a border of halftone swirls. Quiet, until it catches the light."
     },
     {
       "id": "coral-serpent",
-      "code": "004",
+      "code": "003",
       "name": "Coral Serpent",
       "collection": "universe",
       "price": 499,
       "badge": "New",
+      "colors": [
+        {
+          "id": "serpent-coral",
+          "name": "Coral",
+          "hex": "#F07A7E",
+          "image": "assets/img/products/coral-serpent.webp",
+          "imageDetail": "assets/img/products/coral-serpent-detail.webp"
+        }
+      ],
       "pattern": {
         "type": "sigil",
         "colors": [
@@ -92,49 +116,7 @@
         ],
         "seed": 3
       },
-      "story": "A mirrored snakeskin in coral pink, finished with a navy border and the Untied mark in every corner. Shed what no longer fits.",
-      "image": "assets/img/products/coral-serpent.webp",
-      "imageDetail": "assets/img/products/coral-serpent-detail.webp"
-    },
-    {
-      "id": "nebula-wild",
-      "code": "005",
-      "name": "Nebula Wild",
-      "collection": "universe",
-      "price": 499,
-      "badge": "Limited",
-      "pattern": {
-        "type": "sigil",
-        "colors": [
-          "#4A1428",
-          "#F6E3D3",
-          "#C04E8C"
-        ],
-        "seed": 3
-      },
-      "story": "Leopard galaxy in deep magenta, glowing with stardust. For nights that end at sunrise.",
-      "image": "assets/img/products/nebula-wild.webp",
-      "imageDetail": "assets/img/products/nebula-wild-detail.webp"
-    },
-    {
-      "id": "stardust-blue",
-      "code": "006",
-      "name": "Stardust Blue",
-      "collection": "universe",
-      "price": 499,
-      "badge": "New",
-      "pattern": {
-        "type": "sigil",
-        "colors": [
-          "#1E35A8",
-          "#F5EEDC",
-          "#FFFFFF"
-        ],
-        "seed": 3
-      },
-      "story": "Royal blue swirls frame a cream sky of tiny stars. A classic for every orbit.",
-      "image": "assets/img/products/stardust-blue.webp",
-      "imageDetail": "assets/img/products/stardust-blue-detail.webp"
+      "story": "A mirrored snakeskin in coral pink, finished with a navy border and the Untied mark in every corner. Shed what no longer fits."
     }
   ],
   "packs": [
@@ -144,7 +126,7 @@
       "count": 2,
       "price": 899,
       "collection": "universe",
-      "story": "Any two prints from Untied Universe. One to wear, one to share, or two for switching orbits.",
+      "story": "Any two colourways from Untied Universe. One to wear, one to share, or two for switching orbits.",
       "image": "assets/img/products/pack-2.webp",
       "imageDetail": "assets/img/products/pack-2-detail.webp"
     },
@@ -154,7 +136,7 @@
       "count": 3,
       "price": 1299,
       "collection": "universe",
-      "story": "Pick any three prints. Enough for every mood of the week.",
+      "story": "Pick any three colourways. Enough for every mood of the week.",
       "image": "assets/img/products/pack-3.webp",
       "imageDetail": "assets/img/products/pack-3-detail.webp"
     },
@@ -164,7 +146,7 @@
       "count": 6,
       "price": 2399,
       "collection": "universe",
-      "story": "All six Untied Universe prints together: Nova Wild, Moon Wild, Stardust Noir, Coral Serpent, Nebula Wild and Stardust Blue. The complete first collection.",
+      "story": "Every colourway of Untied Universe: Wild Galaxy in Nova Blue, Moonlight and Magenta, Stardust Frame in Noir and Royal Blue, and Coral Serpent. The complete first collection.",
       "image": "assets/img/products/pack-all.webp",
       "imageDetail": "assets/img/products/pack-all-detail.webp"
     }

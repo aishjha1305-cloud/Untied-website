@@ -48,8 +48,12 @@
   const inr = n => '₹' + n.toLocaleString('en-IN');
   const byId = id => DATA.products.find(p => p.id === id) || (DATA.packs || []).find(p => p.id === id);
   // Packs: `count` scarves for one price. 2 and 3 packs let you pick prints; a pack as big as the collection includes every print.
+  // Every colourway of every design, as its own pickable print
+  const prints = () => DATA.products.flatMap(p => (p.colors || [{ id: p.id, name: '', image: p.image, imageDetail: p.imageDetail }]).map(c => ({ id: c.id, colour: c.name, name: p.name + (c.name ? ' · ' + c.name : ''), image: c.image, imageDetail: c.imageDetail, product: p })));
+  const printById = id => prints().find(x => x.id === id);
+  const colourOf = (p, id) => (p.colors || []).find(c => c.id === id) || (p.colors || [])[0];
   const worth = p => p.count * DATA.products[0].price;
-  const fixedPicks = p => p.count >= DATA.products.length ? DATA.products.map(x => x.id) : null;
+  const fixedPicks = p => p.count >= prints().length ? prints().map(x => x.id) : null;
   const packPrice = p => `<s class="was">${inr(worth(p))}</s> ${inr(p.price)}`;
   const coll = id => DATA.collections.find(c => c.id === id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -83,7 +87,7 @@
       </a>
       <button class="add" data-add="${p.id}" aria-label="Add ${esc(p.name)} to bag"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
       <div class="card-info">
-        <div><h3>${esc(p.name)}</h3><p class="ui dim">${p.count ? `${p.count} scarves · ${fixedPicks(p) ? 'Every print' : 'Pick any'}` : (p.code ? 'No. ' + p.code + ' · ' : '') + esc(c ? c.name : '')}</p></div>
+        <div><h3>${esc(p.name)}</h3><p class="ui dim">${p.count ? `${p.count} scarves · ${fixedPicks(p) ? 'Every print' : 'Pick any'}` : (p.code ? 'No. ' + p.code + ' · ' : '') + (p.colors && p.colors.length > 1 ? p.colors.length + ' colours' : esc(c ? c.name : ''))}</p>${p.colors && p.colors.length > 1 ? `<span class="swatches" aria-hidden="true">${p.colors.map(x => `<i style="background:${x.hex}"></i>`).join('')}</span>` : ''}</div>
         <span class="price">${p.count ? packPrice(p) : inr(p.price)}</span>
       </div>
     </article>`;
@@ -100,7 +104,7 @@
   /* ---------- views ---------- */
   function viewHome() {
     const drops = DATA.products.filter(p => p.badge).concat(DATA.products.filter(p => !p.badge)).slice(0, 8);
-    const gallery = DATA.products.flatMap(p => [{ p, v: 'detail' }, { p, v: 'flat' }]);
+    const gallery = prints().map((p, i) => ({ p, v: i % 2 ? 'flat' : 'detail' })).concat(prints().slice(0, 2).map(p => ({ p, v: 'flat' }))).slice(0, 8);
     const start = document.body.classList.contains('booting') ? 1500 : 0;
     const words = ['Remain', 'Untied'];
     return `
@@ -179,12 +183,12 @@ ${bundles()}
     return `
     <section class="wrap page-head">
       <span class="dots fade-down" style="opacity:.14"></span>
-      <p class="ui pink">✦ Store · ${DATA.products.length} scarves</p>
+      <p class="ui pink">✦ Store · ${DATA.products.length} prints · ${prints().length} colourways</p>
       <h1 class="display">${c ? esc(c.name) : DATA.collections.length === 1 ? esc(DATA.collections[0].name) : 'All bandanas'}</h1>
       <p class="lede">${c ? esc(c.blurb) : (DATA.collections.length === 1 ? esc(DATA.collections[0].blurb) : 'Every print, every fabric. Each one made for a different orbit.')}</p>
     </section>
     <section class="wrap" style="padding-bottom:110px">
-      <div class="toolbar">${DATA.collections.length > 1 ? cats(filter) : `<span class="ui dim">${DATA.products.length} prints · Satin</span>`}
+      <div class="toolbar">${DATA.collections.length > 1 ? cats(filter) : `<span class="ui dim">${DATA.products.length} prints · ${prints().length} colourways · Satin</span>`}
         <label class="sort ui" for="sortSel">Sort <select id="sortSel"><option value="featured">Featured</option><option value="low">Price low–high</option><option value="high">Price high–low</option><option value="name">A–Z</option></select></label>
       </div>
       <div class="grid" id="shopGrid"></div>
@@ -230,10 +234,14 @@ ${bundles()}
           <p class="lede">${esc(p.story)}</p>
           ${p.stock ? `<p class="limited ui"><i></i>Limited drop · only ${p.stock} made</p>` : ''}
           ${p.count ? `<div class="opt">
-            <div class="opt-head ui"><span>${fixed ? 'Included' : `Pick ${p.count} prints`}</span><span id="pickNote">${fixed ? `All ${p.count} · Classic ${SIZES[0].dims}` : `0 / ${p.count} picked`}</span></div>
-            <div class="picks${fixed ? ' fixed' : ''}" role="group" aria-label="Prints in this pack">${DATA.products.map(x => `<button class="pick${fixed ? ' on' : ''}" data-pick="${x.id}" aria-pressed="${!!fixed}"${fixed ? ' disabled' : ''}><img src="${P.url(x)}" alt=""><b>${esc(x.name)}</b><small>No. ${x.code}</small></button>`).join('')}</div>
-            ${fixed ? '' : `<p class="ui dim" style="margin:0">Classic size, ${SIZES[0].dims}. Mix any prints.</p>`}
+            <div class="opt-head ui"><span>${fixed ? 'Included' : `Pick ${p.count} colourways`}</span><span id="pickNote">${fixed ? `All ${p.count} · Classic ${SIZES[0].dims}` : `0 / ${p.count} picked`}</span></div>
+            <div class="picks${fixed ? ' fixed' : ''}" role="group" aria-label="Prints in this pack">${prints().map(x => `<button class="pick${fixed ? ' on' : ''}" data-pick="${x.id}" aria-pressed="${!!fixed}"${fixed ? ' disabled' : ''}><img src="${P.url(x)}" alt=""><b>${esc(x.product.name)}</b><small>${esc(x.colour || 'No. ' + x.product.code)}</small></button>`).join('')}</div>
+            ${fixed ? '' : `<p class="ui dim" style="margin:0">Classic size, ${SIZES[0].dims}. Mix any prints and colours.</p>`}
           </div>` : `<p class="ui dim bundle-hint" style="margin:0">✦ Bundle &amp; save: ${DATA.packs.map(x => `<a class="link" href="#p-${x.id}">${x.count} for ${inr(x.price)}</a>`).join(' · ')}</p>
+          ${p.colors && p.colors.length > 1 ? `<div class="opt">
+            <div class="opt-head ui"><span>Colour</span><span id="colourNote">${esc(p.colors[0].name)}</span></div>
+            <div class="colours" role="radiogroup" aria-label="Colour">${p.colors.map((x, i) => `<button class="colour ${i ? '' : 'on'}" role="radio" aria-checked="${!i}" data-colour="${x.id}"><img src="${P.url(x)}" alt=""><span>${esc(x.name)}</span></button>`).join('')}</div>
+          </div>` : ''}
           <div class="opt">
             <div class="opt-head ui"><span>Size</span><span id="sizeNote">${SIZES[0].dims}</span></div>
             <div class="sizes" role="radiogroup" aria-label="Size">${SIZES.map((s, i) => `<button class="size ${i ? '' : 'on'}" role="radio" aria-checked="${!i}" data-size="${s.id}"><b>${s.label}</b><small>${s.dims}${s.add ? ' · +' + inr(s.add) : ''}</small></button>`).join('')}</div>
@@ -258,7 +266,7 @@ ${bundles()}
   // Ways to wear page: a photo per way when one is listed in products.json `ways`, otherwise the scarf folded into that shape
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const wayPhoto = w => (DATA.ways || {})[slug(w.name)];
-  const wayPrint = i => DATA.products[i % DATA.products.length];
+  const wayPrint = i => prints()[i % prints().length];
   function viewWays() {
     const types = [['all', 'All'], ['style', 'Style'], ['utility', 'Utility'], ['carry', 'Carry']];
     return `
@@ -295,7 +303,7 @@ ${bundles()}
       }
       $('#wxN').textContent = `${pad(i + 1)} / ${pad(WAYS.length)}`;
       $('#wxType').textContent = w.type; $('#wxName').textContent = w.name; $('#wxHow').textContent = w.how;
-      const a = $('#wxShown'); a.textContent = `Shown in ${p.name}`; a.href = `#p-${p.id}`;
+      const a = $('#wxShown'); a.textContent = `Shown in ${p.name}`; a.href = `#p-${p.product.id}`;
     };
     const visible = () => $$('.wx-row').filter(r => !r.closest('li').hidden).map(r => +r.dataset.wx);
     $$('.wx-row').forEach(r => { r.addEventListener('click', () => show(+r.dataset.wx)); r.addEventListener('mouseenter', () => fine && show(+r.dataset.wx)); });
@@ -394,21 +402,24 @@ ${bundles()}
   }
 
   /* ---------- cart ---------- */
-  const key = l => l.id + '|' + l.size + (l.picks ? '|' + l.picks.join(',') : '');
-  const lineNote = l => l.picks ? l.picks.map(id => byId(id).name).join(' · ') : (s => `${s.label} · ${s.dims}`)(SIZES.find(x => x.id === l.size));
+  const key = l => l.id + '|' + l.size + (l.colour ? '|' + l.colour : '') + (l.picks ? '|' + l.picks.join(',') : '');
+  const colourLabel = l => (l.colour && byId(l.id).colors.length > 1 ? colourOf(byId(l.id), l.colour).name + ' · ' : '');
+  const lineNote = l => l.picks ? l.picks.map(id => printById(id).name).join(' + ') : colourLabel(l) + (s => `${s.label} · ${s.dims}`)(SIZES.find(x => x.id === l.size));
+  const lineImg = l => (l.colour && colourOf(byId(l.id), l.colour)) || byId(l.id);
   const unit = l => byId(l.id).price + (SIZES.find(s => s.id === l.size)?.add || 0);
   const subtotal = () => cart.reduce((s, l) => s + unit(l) * l.qty, 0);
   const count = () => cart.reduce((s, l) => s + l.qty, 0);
   const shipping = () => (subtotal() >= DATA.freeShippingOver || !cart.length ? 0 : 79);
   function saveCart() { store.set('untied.cart', cart); renderCart(); }
-  function addToCart(id, size = 'classic', qty = 1, fromEl, picks) {
+  function addToCart(id, size = 'classic', qty = 1, fromEl, picks, colour) {
     const p = byId(id); if (!p) return;
     if (p.count) {
       picks = fixedPicks(p) || picks;
       if (!picks || picks.length !== p.count) { location.hash = 'p-' + p.id; return; }
-      picks = DATA.products.map(x => x.id).filter(x => picks.includes(x));
+      picks = prints().map(x => x.id).filter(x => picks.includes(x));
     }
-    const line = picks ? { id, size, qty, picks } : { id, size, qty };
+    if (p.colors) colour = colourOf(p, colour).id;
+    const line = picks ? { id, size, qty, picks } : p.colors ? { id, size, qty, colour } : { id, size, qty };
     const ex = cart.find(l => key(l) === key(line));
     if (ex) ex.qty = Math.min(ex.qty + qty, 10); else cart.push(line);
     saveCart(); fly(p, fromEl); toast(`${p.name} added`);
@@ -432,7 +443,7 @@ ${bundles()}
       : `<span>Free shipping in India over ${inr(DATA.freeShippingOver)}</span>`;
     $('#items').innerHTML = cart.length ? cart.map(l => {
       const p = byId(l.id);
-      return `<div class="item" data-key="${key(l)}"><a href="#p-${p.id}" data-close-drawer><img src="${P.url(p)}" alt=""></a>
+      return `<div class="item" data-key="${key(l)}"><a href="#p-${p.id}" data-close-drawer><img src="${P.url(lineImg(l))}" alt=""></a>
         <div><h3>${esc(p.name)}</h3><p class="ui dim">${esc(lineNote(l))}</p><div class="qty"><button data-lq="-1" aria-label="Decrease">−</button><output>${l.qty}</output><button data-lq="1" aria-label="Increase">+</button></div></div>
         <div style="text-align:right;display:grid;align-content:space-between"><span class="price">${inr(unit(l) * l.qty)}</span><button class="rm ui" data-rm>Remove</button></div></div>`;
     }).join('') : `<div class="drawer-empty"><span class="mask symbol"></span><p class="display" style="font-size:18px;color:var(--moon)">Your bag is empty</p><p class="ui">Every journey starts somewhere.</p><a class="btn" href="#shop" data-close-drawer>Start shopping ${arrow}</a></div>`;
@@ -513,7 +524,7 @@ ${bundles()}
         <button class="btn block" type="submit">Place order · ${inr(subtotal() + shipping())}</button>
       </form>
       <aside class="summary"><h2>Your order</h2>
-        ${cart.map(l => { const p = byId(l.id); return `<div class="sum"><span style="display:flex;gap:12px;align-items:center;min-width:0"><img src="${P.url(p)}" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:3px"><span>${esc(p.name)} × ${l.qty}<br><small class="ui dim">${esc(l.picks ? lineNote(l) : SIZES.find(s => s.id === l.size).label)}</small></span></span><span class="price">${inr(unit(l) * l.qty)}</span></div>`; }).join('')}
+        ${cart.map(l => { const p = byId(l.id); return `<div class="sum"><span style="display:flex;gap:12px;align-items:center;min-width:0"><img src="${P.url(lineImg(l))}" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:3px"><span>${esc(p.name)} × ${l.qty}<br><small class="ui dim">${esc(l.picks ? lineNote(l) : colourLabel(l) + SIZES.find(s => s.id === l.size).label)}</small></span></span><span class="price">${inr(unit(l) * l.qty)}</span></div>`; }).join('')}
         <div class="sum ui"><span>Subtotal</span><span class="price">${inr(subtotal())}</span></div>
         <div class="sum ui"><span>Shipping</span><span class="price">${shipping() ? inr(shipping()) : 'Free'}</span></div>
         <div class="sum total"><span>Total</span><span class="price" style="font-size:16px">${inr(subtotal() + shipping())}</span></div>
@@ -617,7 +628,7 @@ ${bundles()}
     $$('.views [data-view]').forEach(b => b.addEventListener('click', () => {
       $$('.views [data-view]').forEach(x => x.classList.toggle('on', x === b));
       $$('.stage .view').forEach(v => v.classList.toggle('on', v.classList.contains(b.dataset.view)));
-      lens.style.backgroundImage = `url('${P.url(p, b.dataset.view === 'detail' ? 'detail' : 'flat')}')`;
+      const cur = $('[data-colour].on'); lens.style.backgroundImage = `url('${P.url(cur ? colourOf(p, cur.dataset.colour) : p, b.dataset.view === 'detail' ? 'detail' : 'flat')}')`;
     }));
     if (fine) {
       stage.addEventListener('pointerenter', () => stage.classList.add('zoom'));
@@ -644,9 +655,17 @@ ${bundles()}
       $$('[data-pick]').forEach(x => { const on = picks.includes(x.dataset.pick); x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
       note.textContent = `${picks.length} / ${p.count} picked`; note.classList.remove('pink');
     }));
+    let colour = p.colors ? p.colors[0].id : null;
+    $$('[data-colour]').forEach(b => b.addEventListener('click', () => {
+      colour = b.dataset.colour; const c = colourOf(p, colour);
+      $$('[data-colour]').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-checked', String(x === b)); });
+      $('#colourNote').textContent = c.name;
+      $$('.stage .view').forEach(v => (v.style.backgroundImage = `url('${P.url(c, v.classList.contains('detail') ? 'detail' : 'flat')}')`));
+      lens.style.backgroundImage = `url('${P.url(c, $('.views .on')?.dataset.view === 'detail' ? 'detail' : 'flat')}')`;
+    }));
     $('#pdpAdd').addEventListener('click', () => {
       if (p.count && picks.length < p.count) { note.textContent = `Pick ${p.count - picks.length} more`; note.classList.add('pink'); return; }
-      addToCart(p.id, size, qty, stage, picks);
+      addToCart(p.id, size, qty, stage, picks, colour);
     });
   }
 
@@ -683,7 +702,7 @@ ${bundles()}
     // A product code (001, #2, no. 3) finds that exact bandana
     const num = q.replace(/^(#|no\.?\s*)/, '');
     const byCode = /^\d{1,3}$/.test(num) ? DATA.products.filter(p => p.code === num.padStart(3, '0')) : [];
-    const res = byCode.length ? byCode : q ? DATA.products.concat(DATA.packs || []).filter(p => (p.name + ' ' + (p.code || '') + (p.count ? ' pack bundle combo set ' + p.count : '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
+    const res = byCode.length ? byCode : q ? DATA.products.concat(DATA.packs || []).filter(p => (p.name + ' ' + (p.code || '') + ' ' + (p.colors || []).map(c => c.name).join(' ') + (p.count ? ' pack bundle combo set ' + p.count : '') + ' ' + coll(p.collection).name + ' ' + coll(p.collection).fabric).toLowerCase().includes(q)) : DATA.products.slice(0, 4);
     $('#searchResults').innerHTML = res.length ? res.map(card).join('') : `<p class="empty">Nothing matches “${esc(q)}”. Try a code like 001, or wild or satin.</p>`;
   }
   function openSearch(open = true) {
@@ -761,7 +780,8 @@ ${bundles()}
       $('#app').innerHTML = `<section class="wrap confirm"><h1 class="display">The store didn't load</h1><p class="lede">data/products.json couldn't be read. Open the site through a local server, for example python3 -m http.server.</p></section>`;
       loader?.remove(); return;
     }
-    cart = cart.filter(l => byId(l.id) && (!byId(l.id).count || (l.picks || []).length === byId(l.id).count));
+    DATA.products.forEach(p => { if (p.colors) Object.assign(p, { image: p.colors[0].image, imageDetail: p.colors[0].imageDetail }); });
+    cart = cart.filter(l => byId(l.id) && (!byId(l.id).count || ((l.picks || []).length === byId(l.id).count && l.picks.every(printById))));
     setThemeLabels(); $$('[data-theme-toggle]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); $('#mobileNav').classList.remove('open'); toggleTheme(); }));
     bindGlobal(); renderCart(); route(); cursor(); onScroll();
     if (!seen && !reduce) setTimeout(() => { loader.classList.add('done'); document.body.classList.remove('booting'); setTimeout(() => loader.remove(), 900); }, 1600);
