@@ -39,7 +39,7 @@
     pocket: '22% 30%, 50% 30%, 78% 30%, 78% 50%, 78% 70%, 50% 70%, 22% 70%, 22% 50%'
   };
   const MESSAGES = ['Remain Untied', 'Always Becoming', 'Follow The Orbit', 'Move Freely', 'The Future Is Unwritten', 'Born To Wander'];
-  const ANNOUNCE = ['Free shipping in India over ₹999', 'Bundle & save: 2 for ₹899', 'Limited drops', 'Born in India', 'New: Untied Universe, collection 01', 'Remain untied'];
+  const ANNOUNCE = ['Free shipping in India over ₹999', 'Bundle & save: 2 for ₹899', 'Limited drops', 'Born in India, made in India', 'New: Untied Universe, collection 01', 'Remain untied'];
   const INSTAGRAM = 'https://www.instagram.com/untied.in/';
   const VALUES = [['Freedom', 'Expression without restriction.'], ['Movement', 'Growth through change.'], ['Curiosity', 'A desire to explore beyond the familiar.'], ['Individuality', 'No two journeys are identical.'], ['Optimism', 'Believing there is always another horizon.']];
 
