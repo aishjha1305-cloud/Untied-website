@@ -31,7 +31,8 @@
       const oc = off.getContext('2d');
       const scale = Math.min(cols / img.width, rows / img.height) * opt.fit;
       const iw = img.width * scale, ih = img.height * scale;
-      oc.drawImage(img, (cols - iw) / 2, (rows - ih) / 2, iw, ih);
+      // ox/oy nudge the art (as a share of its size) so its visual centre, not its box, sits mid-canvas
+      oc.drawImage(img, (cols - iw) / 2 + iw * (opt.ox || 0), (rows - ih) / 2 + ih * (opt.oy || 0), iw, ih);
       const data = oc.getImageData(0, 0, cols, rows).data;
       dots = [];
       for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {

@@ -596,7 +596,7 @@ ${bundles()}
   /* ---------- page bindings ---------- */
   function bindHome() {
     const hero = $('#hero');
-    HT.mount($('#heroCanvas'), { src: A.symbol, step: fine ? 7 : 6, fit: .9, gain: 1.3, host: hero }).catch(() => {
+    HT.mount($('#heroCanvas'), { src: A.symbol, step: fine ? 7 : 6, fit: .9, gain: 1.3, ox: .04, oy: .12, host: hero }).catch(() => {
       $('#heroCanvas').outerHTML = `<span class="mask symbol" style="width:60%;margin:auto;position:absolute;inset:0;color:var(--moon)"></span>`;
     });
     if (fine) hero.addEventListener('pointermove', e => {
